@@ -6,25 +6,44 @@
         xmlns:local="clr-namespace:DigitizePlot"
         mc:Ignorable="d"
         xmlns:ribbon="http://schemas.microsoft.com/winfx/2006/xaml/presentation/ribbon"
-        Title="DigitizePlot" Height="800" Width="1000" Loaded="Window_Loaded" KeyDown="Window_KeyDown">
+        Title="DigitizePlot" Height="800" Width="1000" Loaded="Window_Loaded" KeyDown="Window_KeyDown" Icon="/Digitize.png">
     <DockPanel>
         <Ribbon DockPanel.Dock="Top" Loaded="Ribbon_Loaded">
             <RibbonTab>
                 <!-- File group-->
                 <RibbonGroup x:Name="FileGroup" Header="File">
-                    <RibbonButton Label="New" LargeImageSource="Images/FileNew.png" KeyTip="N" Click="fileNew_Click" ToolTipTitle="New tooltip"/>
+                    <RibbonButton Label="Open image" SmallImageSource="/Images/OpenImage.png" KeyTip="I" Click="OpenImage_Click" ToolTipTitle="Open a new image file"/>
+                    <RibbonButton Label="Save data" SmallImageSource="/Images/Save.png" KeyTip="S" Click="Save_Click" ToolTipTitle="Save current data"/>
+                    <RibbonButton Label="Load data" SmallImageSource="/Images/Open.png" KeyTip="L" Click="Open_Click" ToolTipTitle="Load saved data"/>
+                </RibbonGroup>
+                <!-- Clipboard group-->
+                <RibbonGroup x:Name="ClipboardGroup" Header="Clipboard">
+                    <RibbonButton Label="Load image" SmallImageSource="/Images/ClipboardIn.png" KeyTip="V" Click="ClipboardIn_Click" ToolTipTitle="Load image from clipboard"/>
+                    <RibbonButton Label="Export data" SmallImageSource="/Images/ClipboardOut.png" KeyTip="C" Click="ClipboardOut_Click" ToolTipTitle="Export digitised data to clipboard"/>
                 </RibbonGroup>
                 <!-- Data group-->
                 <RibbonGroup x:Name="DataGroup" Header="Data">
-                    <RibbonButton Label="New" SmallImageSource="Images/FileNew.png" KeyTip="N" Click="fileNew_Click" ToolTipTitle="New tooltip"/>
+                    <RibbonButton Label="Clear all data" SmallImageSource="/Images/New.png" KeyTip="A" Click="Reset_Click" ToolTipTitle="Delete all data"/>
+                    <RibbonButton Label="Clear points" SmallImageSource="/Images/Clear.png" KeyTip="P" Click="Points_Click" ToolTipTitle="Delete all points"/>
+                    <RibbonButton/>
+                    <RibbonComboBox Label="Data type X" KeyTip="X" SelectionBoxWidth="70">
+                        <RibbonGallery Name="rcbX" SelectedValue="{Binding StyleX}" SelectionChanged="Type_SelectionChanged">
+                            <RibbonGalleryCategory Name="rcbTypeX" />
+                        </RibbonGallery>
+                    </RibbonComboBox>
+                    <RibbonComboBox Label="Data type Y" KeyTip="Y" SelectionBoxWidth="70">
+                        <RibbonGallery Name="rcbY" SelectedValue="{Binding StyleY}" SelectionChanged="Type_SelectionChanged">
+                            <RibbonGalleryCategory Name="rcbTypeY"/>
+                        </RibbonGallery>
+                    </RibbonComboBox>
                 </RibbonGroup>
-                <!-- Data group-->
+                <!-- View group-->
+                <RibbonGroup x:Name="ViewGroup" Header="View">
+                    <RibbonTextBox Name="tbOpacity" Label="Opacity" Text="{Binding MainOpacity, StringFormat=\{0:N2\}, Mode=TwoWay}" KeyTip="T" TextBoxWidth="50" LostKeyboardFocus="TextBox_LostFocus"/>
+                    <RibbonTextBox Name="tbMagnify" Label="Magnify" Text="{Binding ZoomScale, StringFormat=\{0:N1\}, Mode=TwoWay}" KeyTip="M" TextBoxWidth="50" LostKeyboardFocus="TextBox_LostFocus"/>
+                </RibbonGroup>
+                <!-- Auto group-->
                 <RibbonGroup x:Name="AutoGroup" Header="Auto mode">
-                    <RibbonButton Label="New" SmallImageSource="Images/FileNew.png" KeyTip="N" Click="fileNew_Click" ToolTipTitle="New tooltip"/>
-                </RibbonGroup>
-                <!-- Options group-->
-                <RibbonGroup x:Name="OptionsGroup" Header="Options">
-                    <RibbonButton Label="New" SmallImageSource="Images/FileNew.png" KeyTip="N" Click="fileNew_Click" ToolTipTitle="New tooltip"/>
                 </RibbonGroup>
             </RibbonTab>
         </Ribbon>
@@ -42,10 +61,10 @@
             <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch" Grid.Column="2"/>
             <GridSplitter Grid.Column="1" VerticalAlignment="Stretch" Grid.RowSpan="3" HorizontalAlignment="Stretch"/>
             <Canvas Name="MainCanvas" Grid.Column="0" Grid.Row="0" Margin="0" Grid.RowSpan="3"/>
-            <Image Name="MainImage" Grid.Row="0" Grid.Column="0"  Margin="0" AllowDrop="True" Drop="MainImage_Drop" Source="/Untitled.png" Stretch="Fill"
+            <Image Name="MainImage" Grid.Row="0" Grid.Column="0"  Margin="0" AllowDrop="True" Drop="MainImage_Drop" Source="/Plot.png" Stretch="Fill"
                MouseMove="MainImage_MouseMove" Cursor="Cross" MouseDown="MainImage_MouseDown" MouseUp="MainImage_MouseUp"
-               Opacity="{Binding MainOpacity}" Grid.RowSpan="3"/>
-            <Image Name="SubImage" Grid.Row="0" Grid.Column="2" Margin="0" Stretch="Fill" Source="/Untitled.png" SizeChanged="SubImage_SizeChanged" />
+               Opacity="{Binding MainOpacity, Mode=TwoWay}" Grid.RowSpan="3"/>
+            <Image Name="SubImage" Grid.Row="0" Grid.Column="2" Margin="0" Stretch="Fill" Source="/Plot.png" SizeChanged="SubImage_SizeChanged" />
             <Canvas Name="SubCanvas" Grid.Row="0" Grid.Column="2" Margin="0">
                 <Line Name="HLine" X1="0" Y1="0" X2="100" Y2="100" Stroke="{Binding LineColor}" StrokeThickness="1" />
                 <Line Name="VLine" X1="0" Y1="0" X2="100" Y2="100" Stroke="{Binding LineColor}" StrokeThickness="1" />
@@ -54,15 +73,15 @@
                 <Grid Margin="4">
                     <Label VerticalAlignment="Top" Margin="0,0,104,0" HorizontalAlignment="Right" Width="86" Content="Origin X" VerticalContentAlignment="Top" HorizontalContentAlignment="Right" Padding="0,0,5,0"/>
                     <Label VerticalAlignment="Top" Margin="0,20,104,0" HorizontalAlignment="Right" Width="86" Content="Origin Y" VerticalContentAlignment="Top" HorizontalContentAlignment="Right" Padding="0,0,5,0"/>
-                    <Label VerticalAlignment="Top" Margin="0,40,104,0" HorizontalAlignment="Right" Width="86" Content="X-Axis" VerticalContentAlignment="Top" HorizontalContentAlignment="Right" Padding="0,0,5,0"/>
-                    <Label VerticalAlignment="Top" Margin="0,60,104,0" HorizontalAlignment="Right" Width="86" Content="Y-Axis" VerticalContentAlignment="Top" HorizontalContentAlignment="Right" Padding="0,0,5,0"/>
-                    <TextBox Name="OriginX" Text="{Binding data[0].X, StringFormat=\{0:G3\}, Mode=OneWayToSource}" LostFocus="TextBox_LostFocus" 
+                    <Label VerticalAlignment="Top" Margin="0,40,104,0" HorizontalAlignment="Right" Width="86" Content="X-Axis offset" VerticalContentAlignment="Top" HorizontalContentAlignment="Right" Padding="0,0,5,0"/>
+                    <Label VerticalAlignment="Top" Margin="0,60,104,0" HorizontalAlignment="Right" Width="86" Content="Y-Axis offset" VerticalContentAlignment="Top" HorizontalContentAlignment="Right" Padding="0,0,5,0"/>
+                    <TextBox Name="OriginX" Text="{Binding data[0].X, StringFormat=\{0:G3\}, Mode=OneWayToSource}" LostKeyboardFocus="TextBox_LostFocus" 
                          VerticalAlignment="Top" Margin="0,0,0,0" HorizontalAlignment="Right" Width="100"/>
-                    <TextBox Name="OriginY" Text="{Binding data[0].Y, StringFormat=\{0:G3\}, Mode=OneWayToSource}" LostFocus="TextBox_LostFocus" 
+                    <TextBox Name="OriginY" Text="{Binding data[0].Y, StringFormat=\{0:G3\}, Mode=OneWayToSource}" LostKeyboardFocus="TextBox_LostFocus" 
                          VerticalAlignment="Top" Margin="0,20,0,0" HorizontalAlignment="Right" Width="100"/>
-                    <TextBox Name="XAxis" Text="{Binding data[1].X, StringFormat=\{0:G3\}, Mode=OneWayToSource}" LostFocus="TextBox_LostFocus" 
+                    <TextBox Name="XAxis" Text="{Binding data[1].X, StringFormat=\{0:G3\}, Mode=OneWayToSource}" LostKeyboardFocus="TextBox_LostFocus" 
                          VerticalAlignment="Top" Margin="0,40,0,0" HorizontalAlignment="Right" Width="100"/>
-                    <TextBox Name="YAxis" Text="{Binding data[2].Y, StringFormat=\{0:G3\}, Mode=OneWayToSource}" LostFocus="TextBox_LostFocus" 
+                    <TextBox Name="YAxis" Text="{Binding data[2].Y, StringFormat=\{0:G3\}, Mode=OneWayToSource}" LostKeyboardFocus="TextBox_LostFocus" 
                          VerticalAlignment="Top" Margin="0,60,0,0" HorizontalAlignment="Right" Width="100"/>
                 </Grid>
                 <DataGrid Name="ResultsGrid" HeadersVisibility="Column" 

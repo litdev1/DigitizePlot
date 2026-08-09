@@ -63,9 +63,69 @@ namespace DigitizePlot.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] FileNew {
+        internal static byte[] Clear {
             get {
-                object obj = ResourceManager.GetObject("FileNew", resourceCulture);
+                object obj = ResourceManager.GetObject("Clear", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] ClipboardIn {
+            get {
+                object obj = ResourceManager.GetObject("ClipboardIn", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] ClipboardOut {
+            get {
+                object obj = ResourceManager.GetObject("ClipboardOut", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] New {
+            get {
+                object obj = ResourceManager.GetObject("New", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Open {
+            get {
+                object obj = ResourceManager.GetObject("Open", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] OpenImage {
+            get {
+                object obj = ResourceManager.GetObject("OpenImage", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Save {
+            get {
+                object obj = ResourceManager.GetObject("Save", resourceCulture);
                 return ((byte[])(obj));
             }
         }

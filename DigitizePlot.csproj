@@ -6,16 +6,34 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>Digitize.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Images\FileNew.png" />
-    <None Remove="Untitled.png" />
+    <None Remove="Digitize.png" />
+    <None Remove="Images\Clear.png" />
+    <None Remove="Images\ClipboardIn.png" />
+    <None Remove="Images\ClipboardOut.png" />
+    <None Remove="Images\Open.png" />
+    <None Remove="Images\OpenImage.png" />
+    <None Remove="Images\Save.png" />
+    <None Remove="Plot.png" />
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Images\FileNew.png" />
-    <Resource Include="Untitled.png" />
+    <Content Include="Digitize.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Digitize.png" />
+    <Resource Include="Images\Clear.png" />
+    <Resource Include="Images\ClipboardIn.png" />
+    <Resource Include="Images\ClipboardOut.png" />
+    <Resource Include="Images\New.png" />
+    <Resource Include="Images\Open.png" />
+    <Resource Include="Images\OpenImage.png" />
+    <Resource Include="Images\Save.png" />
+    <Resource Include="Plot.png" />
   </ItemGroup>
 
   <ItemGroup>
