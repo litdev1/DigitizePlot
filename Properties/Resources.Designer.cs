@@ -93,6 +93,26 @@ namespace DigitizePlot.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] Help {
+            get {
+                object obj = ResourceManager.GetObject("Help", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] HelpRTF {
+            get {
+                object obj = ResourceManager.GetObject("HelpRTF", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] New {
             get {
                 object obj = ResourceManager.GetObject("New", resourceCulture);
@@ -126,6 +146,26 @@ namespace DigitizePlot.Properties {
         internal static byte[] Save {
             get {
                 object obj = ResourceManager.GetObject("Save", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Sort {
+            get {
+                object obj = ResourceManager.GetObject("Sort", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Wizard {
+            get {
+                object obj = ResourceManager.GetObject("Wizard", resourceCulture);
                 return ((byte[])(obj));
             }
         }

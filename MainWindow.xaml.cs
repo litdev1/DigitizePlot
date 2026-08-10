@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows;
@@ -15,6 +16,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Shell;
 using System.Xml;
 using System.Xml.Serialization;
 using static System.Net.Mime.MediaTypeNames;
@@ -30,6 +32,10 @@ namespace DigitizePlot
     public partial class MainWindow : Window
     {
         Bitmap mainBitmap;
+        public bool AutoMode { get; set; } = false;
+        public double AutoTolerance { get; set; } = 35;
+        public double AutoSpacing { get; set; } = 20;
+        public bool SortMode { get; set; } = true;
         public double ZoomScale { get; set; } = 3;
         public float MarkerWidth { get; set; } = 4;
         public string StyleX { get; set; } = "Linear";
@@ -93,14 +99,23 @@ namespace DigitizePlot
             {
                 using (MemoryStream ms = new MemoryStream())
                 {
+                    BitmapMetadata metadata = new BitmapMetadata("png");
+                    BitmapFrame frame = BitmapFrame.Create((BitmapSource)image.Source, null, metadata, null);
+
                     BitmapEncoder enc = new PngBitmapEncoder();
-                    enc.Frames.Add(BitmapFrame.Create((BitmapSource)image.Source));
+                    enc.Frames.Add(frame);
                     enc.Save(ms);
-                    return new Bitmap(ms);
+                    ms.Position = 0;
+                    using (var temp = new Bitmap(ms))
+                    {
+                        // Return a fully independent copy that does not depend on the stream
+                        return new Bitmap(temp);
+                    }
                 }
             }
             catch (Exception ex)
             {
+                MessageBox.Show(ex.Message);
                 return null;
             }
         }
@@ -161,8 +176,8 @@ namespace DigitizePlot
                     {
                         pen.Color = System.Drawing.Color.Blue;
                     }
-                    float l = (float)(datum.Local.X * w - left - MarkerWidth);
-                    float t = (float)(datum.Local.Y * h - top - MarkerWidth);
+                    float l = (float)(datum.Local.X * w - left + _left - MarkerWidth);
+                    float t = (float)(datum.Local.Y * h - top + _top - MarkerWidth);
                     RectangleF rect = new RectangleF(l, t, 2 * MarkerWidth, 2 * MarkerWidth);
                     g.DrawEllipse(pen, rect);
                 }
@@ -177,6 +192,7 @@ namespace DigitizePlot
             }
             catch (Exception ex)
             {
+                MessageBox.Show(ex.Message);
             }
         }
 
@@ -231,52 +247,148 @@ namespace DigitizePlot
                 }
 
                 //Add data point
-                Data newDatum = new Data();
-                data.Add(newDatum);
-
-                newDatum.Local = new Point(pos.X / image.ActualWidth, pos.Y / image.ActualHeight);
-                if (data.Count == 1)
+                if (AutoMode)
                 {
-                    newDatum.IsVisible = false;
-                    newDatum.Label = "Origin";
-
-                    double X = 0;
-                    double Y = 0;
-                    if (OriginX.Text != "") double.TryParse(OriginX.Text, out X);
-                    if (OriginY.Text != "") double.TryParse(OriginY.Text, out Y);
-                    newDatum.X = X;
-                    newDatum.Y = Y;
-                }
-                else if (data.Count == 2)
-                {
-                    newDatum.IsVisible = false;
-                    newDatum.Label = "X Axis";
-                    double X = 1;
-                    double Y = 0;
-                    if (XAxis.Text != "") double.TryParse(XAxis.Text, out X);
-                    if (OriginY.Text != "") double.TryParse(OriginY.Text, out Y);
-                    newDatum.X = X;
-                    newDatum.Y = Y;
-                }
-                else if (data.Count == 3)
-                {
-                    newDatum.IsVisible = false;
-                    newDatum.Label = "Y Axis";
-                    double X = 0;
-                    double Y = 1;
-                    if (OriginX.Text != "") double.TryParse(OriginX.Text, out X);
-                    if (YAxis.Text != "") double.TryParse(YAxis.Text, out Y);
-                    newDatum.X = X;
-                    newDatum.Y = Y;
+                    AutoDigitize(image, pos);
                 }
                 else
                 {
-                    newDatum.Label = "Point";
+                    AddDataPoint(image, pos);
                 }
-                AddEllipse(newDatum);
 
                 UpdateData();
             }
+        }
+
+        private void AutoDigitize(Image image, Point pos)
+        {
+            if (data.Count < 3)
+            {
+                AddDataPoint(image, pos);
+                return;
+            }
+
+            var working = mainBitmap.Clone(new RectangleF(0, 0, mainBitmap.Width, mainBitmap.Height), mainBitmap.PixelFormat);
+            int x0 = (int)(pos.X / image.ActualWidth * working.Width);
+            int y0 = (int)(pos.Y / image.ActualHeight * working.Height);
+            var p0 = working.GetPixel(x0, y0);
+            var inv = System.Drawing.Color.FromArgb((p0.R + 128) % 256, (p0.G + 128) % 256, (p0.B + 128) % 256);
+            //var hue0 = Hue(p0);
+
+            var x1 = x0;
+            var y1 = y0;
+            var stack = new Stack<(int, int)>();
+            stack.Push((x1, y1));
+            working.SetPixel(x1, y1, inv);
+            var tol = 3 * AutoTolerance * AutoTolerance;
+            List<Point> allData = new List<Point>();
+            while (stack.Count > 0)
+            {
+                (x1, y1) = stack.Pop();
+                for (int i = -1; i <= 1; i++)
+                {
+                    for (int j = -1; j <= 1; j++)
+                    {
+                        var x2 = x1 + i;
+                        var y2 = y1 + j;
+                        if (x2 < 0 || x2 >= working.Width || y2 < 0 || y2 >= working.Height) continue;
+                        var p2 = working.GetPixel(x2, y2);
+                        if (p2 == inv) continue;
+                        //var diff = Math.Abs(hue0 - Hue(p2));
+                        var diff = (p2.R - p0.R) * (p2.R - p0.R) + (p2.G - p0.G) * (p2.G - p0.G) + (p2.B - p0.B) * (p2.B - p0.B);
+                        if (diff >= tol) continue;
+                        stack.Push((x2, y2));
+                        working.SetPixel(x2, y2, inv);
+                        allData.Add(new Point(x2 * image.ActualWidth / working.Width, y2 * image.ActualHeight / working.Height));
+                    }
+                }
+            }
+
+            allData = allData.OrderBy(p => p.X).ToList();
+            var last = allData[0];
+            AddDataPoint(image, last);
+            foreach (var point in allData)
+            {
+                if (point.X - last.X > AutoSpacing)
+                {
+                    last = point;
+                    AddDataPoint(image, last);
+                }
+            }
+
+            //mainBitmap = working;
+        }
+
+        private double Hue(System.Drawing.Color color)
+        {
+            var R = color.R / 255.0;
+            var G = color.G / 255.0;
+            var B = color.B / 255.0;
+            var min = Math.Min(R, Math.Min(G, B));
+            var max = Math.Max(R, Math.Max(G, B));
+            var diff = max - min;
+            if (diff == 0) return 0;
+            var hue = 0.0;
+            if (R > G && R > B)
+            {
+                hue = (G - B) / (max - min);
+            }
+            else if (G > B && G > R)
+            {
+                hue = 2 + (B - R) / (max - min);
+            }
+            else
+            {
+                hue = 4 + (R - G) / (max - min);
+            }
+            return hue < 0 ? 360 + 60 * hue : 60 * hue;
+        }
+
+        private void AddDataPoint(Image image, Point pos)
+        {
+            Data newDatum = new Data();
+            data.Add(newDatum);
+
+            newDatum.Local = new Point(pos.X / image.ActualWidth, pos.Y / image.ActualHeight);
+            if (data.Count == 1)
+            {
+                newDatum.IsVisible = false;
+                newDatum.Label = "Origin";
+
+                double X = 0;
+                double Y = 0;
+                if (OriginX.Text != "") double.TryParse(OriginX.Text, out X);
+                if (OriginY.Text != "") double.TryParse(OriginY.Text, out Y);
+                newDatum.X = X;
+                newDatum.Y = Y;
+            }
+            else if (data.Count == 2)
+            {
+                newDatum.IsVisible = false;
+                newDatum.Label = "X Axis";
+                double X = 1;
+                double Y = 0;
+                if (XAxis.Text != "") double.TryParse(XAxis.Text, out X);
+                if (OriginY.Text != "") double.TryParse(OriginY.Text, out Y);
+                newDatum.X = X;
+                newDatum.Y = Y;
+            }
+            else if (data.Count == 3)
+            {
+                newDatum.IsVisible = false;
+                newDatum.Label = "Y Axis";
+                double X = 0;
+                double Y = 1;
+                if (OriginX.Text != "") double.TryParse(OriginX.Text, out X);
+                if (YAxis.Text != "") double.TryParse(YAxis.Text, out Y);
+                newDatum.X = X;
+                newDatum.Y = Y;
+            }
+            else
+            {
+                newDatum.Label = "Point";
+            }
+            AddEllipse(newDatum);
         }
 
         private void MainImage_MouseUp(object sender, MouseButtonEventArgs e)
@@ -295,14 +407,17 @@ namespace DigitizePlot
 
         private void UpdateData()
         {
-            var points = data.Where(x => x.Label.StartsWith("Point")).ToList().OrderBy(x => x.Local.X).ToList();
-            while (data.Count > 3)
+            if (SortMode)
             {
-                data.RemoveAt(3);
-            }
-            foreach (var point in points)
-            {
-                data.Add(point);
+                var points = data.Where(x => x.Label.StartsWith("Point")).ToList().OrderBy(x => x.Local.X).ToList();
+                while (data.Count > 3)
+                {
+                    data.RemoveAt(3);
+                }
+                foreach (var point in points)
+                {
+                    data.Add(point);
+                }
             }
             ResultsGrid.ItemsSource = null;
             int i = 1;
@@ -348,15 +463,21 @@ namespace DigitizePlot
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
-            if (MainImage.IsMouseOver)
+            var isCtrl = Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl);
+            if (MainImage.IsMouseOver || MainCanvas.IsMouseOver)
             {
-                if (e.Key == Key.V && (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl)))
+                if (isCtrl)
                 {
-                    ClipboardIn();
-                }
-                else if (e.Key == Key.C && (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl)))
-                {
-                    ClipboardOut();
+                    if (e.Key == Key.V)
+                    {
+                        ClipboardIn();
+                        e.Handled = true;
+                    }
+                    else if (e.Key == Key.C)
+                    {
+                        ClipboardOut();
+                        e.Handled = true;
+                    }
                 }
             }
         }
@@ -380,10 +501,17 @@ namespace DigitizePlot
                     sb.AppendLine(datum.X + "\t" + datum.Y);
                 }
             }
+            sb.AppendLine();
+            Clipboard.Clear();
             Clipboard.SetText(sb.ToString());
         }
 
         private void TextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            UpdateTextBox(sender);
+        }
+
+        private void UpdateTextBox(object sender)
         {
             var tb = (TextBox)sender;
             double value = 0;
@@ -408,6 +536,12 @@ namespace DigitizePlot
                         break;
                     case "tbMagnify":
                         ZoomScale = value;
+                        break;
+                    case "tbTolerance":
+                        AutoTolerance = value;
+                        break;
+                    case "tbSpacing":
+                        AutoSpacing = value;
                         break;
                 }
                 UpdateData();
@@ -446,23 +580,26 @@ namespace DigitizePlot
             {
                 // Open document
                 string filename = dialog.FileName;
+                List<Data>? tempList = null;
 
-                var serializer = new XmlSerializer(typeof(ObservableCollection<Data>));
-                ObservableCollection<Data>? tempData = null;
-
-                using (Stream reader = new FileStream(filename, FileMode.Open))
+                try
                 {
-                    var xml = serializer.Deserialize(reader);
-                    if (null != xml)
+                    var serializer = new XmlSerializer(typeof(List<Data>));
+                    using (var fs = new FileStream(filename, FileMode.Open))
                     {
-                        tempData = (ObservableCollection<Data>)xml;
+                        tempList = (List<Data>?)serializer.Deserialize(fs);
                     }
                 }
-                if (null != tempData)
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+
+                if (null != tempList)
                 {
                     data.Clear();
                     MainCanvas.Children.Clear();
-                    foreach (var datum in tempData)
+                    foreach (var datum in tempList)
                     {
                         AddEllipse(datum);
                         data.Add(datum);
@@ -572,6 +709,22 @@ namespace DigitizePlot
         private void Type_SelectionChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
             UpdateData();
+        }
+
+        private void Help_Click(object sender, RoutedEventArgs e)
+        {
+            Help help = new Help();
+            help.Show();
+        }
+
+        private void cbSort_Checked(object sender, RoutedEventArgs e)
+        {
+            UpdateData();
+        }
+
+        private void TextBox_LostFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            UpdateTextBox(sender);
         }
     }
 

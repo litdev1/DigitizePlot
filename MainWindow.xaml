@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:DigitizePlot"
         mc:Ignorable="d"
         xmlns:ribbon="http://schemas.microsoft.com/winfx/2006/xaml/presentation/ribbon"
-        Title="DigitizePlot" Height="800" Width="1000" Loaded="Window_Loaded" KeyDown="Window_KeyDown" Icon="/Digitize.png">
+        Title="DigitizePlot" Height="800" Width="1000" Loaded="Window_Loaded" PreviewKeyDown="Window_KeyDown">
     <DockPanel>
         <Ribbon DockPanel.Dock="Top" Loaded="Ribbon_Loaded">
             <RibbonTab>
@@ -25,7 +25,7 @@
                 <RibbonGroup x:Name="DataGroup" Header="Data">
                     <RibbonButton Label="Clear all data" SmallImageSource="/Images/New.png" KeyTip="A" Click="Reset_Click" ToolTipTitle="Delete all data"/>
                     <RibbonButton Label="Clear points" SmallImageSource="/Images/Clear.png" KeyTip="P" Click="Points_Click" ToolTipTitle="Delete all points"/>
-                    <RibbonButton/>
+                    <RibbonCheckBox Name="cbSort" Label="Sort" SmallImageSource="/Images/Sort.png" IsChecked="{Binding SortMode, Mode=TwoWay}" KeyTip="S" ToolTipTitle="Sort data by X value" Checked="cbSort_Checked"/>
                     <RibbonComboBox Label="Data type X" KeyTip="X" SelectionBoxWidth="70">
                         <RibbonGallery Name="rcbX" SelectedValue="{Binding StyleX}" SelectionChanged="Type_SelectionChanged">
                             <RibbonGalleryCategory Name="rcbTypeX" />
@@ -44,6 +44,13 @@
                 </RibbonGroup>
                 <!-- Auto group-->
                 <RibbonGroup x:Name="AutoGroup" Header="Auto mode">
+                    <RibbonCheckBox Name="cbAuto" Label="Auto on" LargeImageSource="/Images/Wizard.png" IsChecked="{Binding AutoMode, Mode=TwoWay}" KeyTip="A" ToolTipTitle="Auto data detection"/>
+                    <RibbonTextBox Name="tbTolerance" Label="Tolerance" Text="{Binding AutoTolerance, StringFormat=\{0:N0\}, Mode=TwoWay}" KeyTip="A" TextBoxWidth="50" ToolTipTitle="Auto detection theshold (rms R,G,B)" LostKeyboardFocus="TextBox_LostFocus"/>
+                    <RibbonTextBox Name="tbSpacing" Label="Spacing" Text="{Binding AutoSpacing, StringFormat=\{0:N0\}, Mode=TwoWay}" KeyTip="A" TextBoxWidth="50" ToolTipTitle="Auto point spacing (screen pixels)" LostKeyboardFocus="TextBox_LostFocus"/>
+                </RibbonGroup>
+                <!-- Auto group-->
+                <RibbonGroup x:Name="HelpGroup" Header="Help">
+                    <RibbonButton Label="Help" LargeImageSource="/Images/Help.png" KeyTip="P" Click="Help_Click" ToolTipTitle="Help"/>
                 </RibbonGroup>
             </RibbonTab>
         </Ribbon>

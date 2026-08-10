@@ -11,12 +11,16 @@
 
   <ItemGroup>
     <None Remove="Digitize.png" />
+    <None Remove="Help.rtf" />
     <None Remove="Images\Clear.png" />
     <None Remove="Images\ClipboardIn.png" />
     <None Remove="Images\ClipboardOut.png" />
+    <None Remove="Images\Help.png" />
     <None Remove="Images\Open.png" />
     <None Remove="Images\OpenImage.png" />
     <None Remove="Images\Save.png" />
+    <None Remove="Images\Sort.png" />
+    <None Remove="Images\Wizard.png" />
     <None Remove="Plot.png" />
   </ItemGroup>
 
@@ -26,13 +30,17 @@
 
   <ItemGroup>
     <Resource Include="Digitize.png" />
+    <Resource Include="Help.rtf" />
     <Resource Include="Images\Clear.png" />
     <Resource Include="Images\ClipboardIn.png" />
     <Resource Include="Images\ClipboardOut.png" />
+    <Resource Include="Images\Help.png" />
     <Resource Include="Images\New.png" />
     <Resource Include="Images\Open.png" />
     <Resource Include="Images\OpenImage.png" />
     <Resource Include="Images\Save.png" />
+    <Resource Include="Images\Sort.png" />
+    <Resource Include="Images\Wizard.png" />
     <Resource Include="Plot.png" />
   </ItemGroup>
 
