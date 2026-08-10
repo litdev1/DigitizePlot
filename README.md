@@ -42,7 +42,7 @@ tol=√((〖∆R〗^2+〖∆G〗^2+〖∆B〗^2)/3)
 
 Pixel step is the distance to search from one ‘found’ point to the next.  A larger value will be slower, and may pick up other similar colour points that are not adjacent.  However, it can help to ‘jump’ gaps for example lines crossing each other or even dashed lines.
 
-Spacing is the X value spacing of the found points that are finally reported– they are always sorted by X value.  The spacing distance is pixel number on the main view image (which may be zoomed from the original image.
+Spacing is the X value spacing of the found points that are finally reported– they are always sorted by X value.  The spacing distance is pixel number on the main view image (which may be zoomed from the original image).
 ## Examples
 Auto generated data on a log-log plot
 <img width="910" height="762" alt="image" src="https://github.com/user-attachments/assets/aed64603-53d9-42e9-97fc-4e8e1bfde43c" />
