@@ -25,7 +25,7 @@
                 <RibbonGroup x:Name="DataGroup" Header="Data">
                     <RibbonButton Label="Clear all data" SmallImageSource="/Images/New.png" KeyTip="A" Click="Reset_Click" ToolTipTitle="Delete all data"/>
                     <RibbonButton Label="Clear points" SmallImageSource="/Images/Clear.png" KeyTip="P" Click="Points_Click" ToolTipTitle="Delete all points"/>
-                    <RibbonCheckBox Name="cbSort" Label="Sort" SmallImageSource="/Images/Sort.png" IsChecked="{Binding SortMode, Mode=TwoWay}" KeyTip="S" ToolTipTitle="Sort data by X value" Checked="cbSort_Checked"/>
+                    <RibbonCheckBox Name="cbSort" Label="Sort" SmallImageSource="/Images/Sort.png" IsChecked="{Binding SortMode, Mode=TwoWay}" KeyTip="S" ToolTipTitle="Sort data by X value" Checked="cbSort_Checked" Unchecked="cbSort_Checked"/>
                     <RibbonComboBox Label="Data type X" KeyTip="X" SelectionBoxWidth="70">
                         <RibbonGallery Name="rcbX" SelectedValue="{Binding StyleX}" SelectionChanged="Type_SelectionChanged">
                             <RibbonGalleryCategory Name="rcbTypeX" />
@@ -41,7 +41,7 @@
                 <RibbonGroup x:Name="ViewGroup" Header="View">
                     <RibbonTextBox Name="tbOpacity" Label="Opacity" Text="{Binding MainOpacity, StringFormat=\{0:N2\}, Mode=TwoWay}" KeyTip="T" TextBoxWidth="50" LostKeyboardFocus="TextBox_LostFocus"/>
                     <RibbonTextBox Name="tbMagnify" Label="Magnify" Text="{Binding ZoomScale, StringFormat=\{0:N1\}, Mode=TwoWay}" KeyTip="M" TextBoxWidth="50" LostKeyboardFocus="TextBox_LostFocus"/>
-                    <RibbonCheckBox Name="cbGuides" Label="Guides" SmallImageSource="/Images/Guide.png" IsChecked="{Binding AxisGuides, Mode=TwoWay}" KeyTip="S" ToolTipTitle="Horizontal and vertical axis point guides" Checked="cbGuides_Checked"/>
+                    <RibbonCheckBox Name="cbGuides" Label="Guides" SmallImageSource="/Images/Guide.png" IsChecked="{Binding AxisGuides, Mode=TwoWay}" KeyTip="S" ToolTipTitle="Horizontal and vertical axis point guides" Checked="cbGuides_Checked" Unchecked="cbGuides_Checked"/>
                 </RibbonGroup>
                 <!-- Auto group-->
                 <RibbonGroup x:Name="AutoGroup" Header="Auto mode">
