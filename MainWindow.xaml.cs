@@ -45,6 +45,8 @@ namespace DigitizePlot
         public double MainOpacity { get; set; } = 0.25;
         public SolidColorBrush LineColor { get; set; } = new SolidColorBrush(Colors.Red); 
         Data? movingDatum = null;
+        System.Windows.Shapes.Rectangle? groupRect = null;
+        Point groupPos;
         public ObservableCollection<Data> data { get; set; } = new ObservableCollection<Data>();
 
         public MainWindow()
@@ -92,6 +94,16 @@ namespace DigitizePlot
                 Canvas.SetTop(movingDatum.Marker, pos.Y - MarkerWidth);
                 movingDatum.Local = new Point(pos.X / image.ActualWidth, pos.Y / image.ActualHeight);
                 UpdateGuides(movingDatum);
+            }
+            if (null != groupRect)
+            {
+                var w = pos.X - groupPos.X;
+                Canvas.SetLeft(groupRect, w > 0 ? groupPos.X :pos.X);
+                groupRect.Width = Math.Abs(w);
+
+                var h = pos.Y - groupPos.Y;
+                Canvas.SetTop(groupRect, h > 0 ? groupPos.Y : pos.Y);
+                groupRect.Height = Math.Abs(h);
             }
             updateSubImage(pos.X / image.ActualWidth, pos.Y / image.ActualHeight);
         }
@@ -230,6 +242,21 @@ namespace DigitizePlot
 
             if (e.LeftButton == MouseButtonState.Pressed)
             {
+                if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
+                {
+                    //Group select
+                    groupRect = new System.Windows.Shapes.Rectangle()
+                    {
+                        Fill = new SolidColorBrush(Colors.Transparent),
+                        Stroke = new SolidColorBrush(Colors.Black),
+                        StrokeThickness = 1,
+                        StrokeDashArray = { 5, 5 },
+                    };
+                    MainCanvas.Children.Add(groupRect);
+                    groupPos = pos;
+                    UpdateData();
+                    return;
+                }
                 foreach (var datum in data)
                 {
                     if (Math.Abs(Canvas.GetLeft(datum.Marker) + MarkerWidth - pos.X) <= MarkerWidth && Math.Abs(Canvas.GetTop(datum.Marker) + MarkerWidth - pos.Y) <= MarkerWidth)
@@ -306,6 +333,10 @@ namespace DigitizePlot
                         allData.Add(new Point(x2 * image.ActualWidth / working.Width, y2 * image.ActualHeight / working.Height));
                     }
                 }
+                if (allData.Count > 100000)
+                {
+                    break;
+                }
             }
 
             allData = allData.OrderBy(p => p.X).ToList();
@@ -313,6 +344,7 @@ namespace DigitizePlot
             AddDataPoint(image, last);
             foreach (var point in allData)
             {
+                //if ((point - last).Length > AutoSpacing)
                 if (point.X - last.X > AutoSpacing)
                 {
                     last = point;
@@ -397,10 +429,38 @@ namespace DigitizePlot
 
         private void MainImage_MouseUp(object sender, MouseButtonEventArgs e)
         {
+            var image = (Image)sender;
+            var pos = e.GetPosition(image);
+
             if (null != movingDatum)
             {
                 movingDatum = null;
                 UpdateData();
+            }
+            if (null != groupRect)
+            {
+                List<Data> toDelete = new List<Data>();
+                foreach (var datum in data)
+                {
+                    if (datum.Label.StartsWith("Point"))
+                    {
+                        var x = datum.Local.X * MainImage.ActualWidth;
+                        var y = datum.Local.Y * MainImage.ActualHeight;
+                        if (x > Math.Min(pos.X, groupPos.X) && x < Math.Max(pos.X, groupPos.X) &&
+                            y > Math.Min(pos.Y, groupPos.Y) && y < Math.Max(pos.Y, groupPos.Y))
+                        {
+                            toDelete.Add(datum);
+                        }
+                    }
+                }
+                foreach (var datum in toDelete)
+                {
+                    MainCanvas.Children.Remove(datum.Marker);
+                    data.Remove(datum);
+                }
+
+                MainCanvas.Children.Remove(groupRect);
+                groupRect = null;
             }
         }
 
@@ -559,7 +619,6 @@ namespace DigitizePlot
                     sb.AppendLine(datum.X + "\t" + datum.Y);
                 }
             }
-            sb.AppendLine();
             Clipboard.Clear();
             Clipboard.SetText(sb.ToString());
         }
