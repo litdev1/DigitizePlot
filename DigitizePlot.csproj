@@ -15,6 +15,7 @@
     <None Remove="Images\Clear.png" />
     <None Remove="Images\ClipboardIn.png" />
     <None Remove="Images\ClipboardOut.png" />
+    <None Remove="Images\Guide.png" />
     <None Remove="Images\Help.png" />
     <None Remove="Images\Open.png" />
     <None Remove="Images\OpenImage.png" />
@@ -34,6 +35,7 @@
     <Resource Include="Images\Clear.png" />
     <Resource Include="Images\ClipboardIn.png" />
     <Resource Include="Images\ClipboardOut.png" />
+    <Resource Include="Images\Guide.png" />
     <Resource Include="Images\Help.png" />
     <Resource Include="Images\New.png" />
     <Resource Include="Images\Open.png" />

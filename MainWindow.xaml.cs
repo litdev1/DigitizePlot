@@ -32,9 +32,11 @@ namespace DigitizePlot
     public partial class MainWindow : Window
     {
         Bitmap mainBitmap;
+        public bool AxisGuides { get; set; } = false;
         public bool AutoMode { get; set; } = false;
         public double AutoTolerance { get; set; } = 35;
         public double AutoSpacing { get; set; } = 20;
+        public int PixelStep { get; set; } = 1;
         public bool SortMode { get; set; } = true;
         public double ZoomScale { get; set; } = 3;
         public float MarkerWidth { get; set; } = 4;
@@ -89,6 +91,7 @@ namespace DigitizePlot
                 Canvas.SetLeft(movingDatum.Marker, pos.X - MarkerWidth);
                 Canvas.SetTop(movingDatum.Marker, pos.Y - MarkerWidth);
                 movingDatum.Local = new Point(pos.X / image.ActualWidth, pos.Y / image.ActualHeight);
+                UpdateGuides(movingDatum);
             }
             updateSubImage(pos.X / image.ActualWidth, pos.Y / image.ActualHeight);
         }
@@ -217,6 +220,7 @@ namespace DigitizePlot
                 Canvas.SetLeft(ellipse, x - MarkerWidth);
                 Canvas.SetTop(ellipse, y - MarkerWidth);
             }
+            UpdateGuides();
         }
 
         private void MainImage_MouseDown(object sender, MouseButtonEventArgs e)
@@ -285,9 +289,9 @@ namespace DigitizePlot
             while (stack.Count > 0)
             {
                 (x1, y1) = stack.Pop();
-                for (int i = -1; i <= 1; i++)
+                for (int i = -PixelStep; i <= PixelStep; i++)
                 {
-                    for (int j = -1; j <= 1; j++)
+                    for (int j = -PixelStep; j <= PixelStep; j++)
                     {
                         var x2 = x1 + i;
                         var y2 = y1 + j;
@@ -459,6 +463,60 @@ namespace DigitizePlot
             if (data.Count > 0) OriginY.Text = data[0].Y.ToString();
             if (data.Count > 1) XAxis.Text = data[1].X.ToString();
             if (data.Count > 2) YAxis.Text = data[2].Y.ToString();
+
+            var lines = MainCanvas.Children.OfType<Line>().ToList();
+            if (lines.Count == 0)
+            {
+                for (i = 0; i < 2; i++)
+                {
+                    MainCanvas.Children.Add(new Line()
+                    {
+                        Stroke = new SolidColorBrush(Colors.Black),
+                        StrokeThickness = 1,
+                        Visibility = Visibility.Collapsed,
+                    });
+                    MainCanvas.Children.Add(new Line()
+                    {
+                        Stroke = new SolidColorBrush(Colors.Green),
+                        StrokeThickness = 1,
+                        Visibility = Visibility.Collapsed,
+                    });
+                    MainCanvas.Children.Add(new Line()
+                    {
+                        Stroke = new SolidColorBrush(Colors.Blue),
+                        StrokeThickness = 1,
+                        Visibility = Visibility.Collapsed,
+                    });
+                }
+            }
+            UpdateGuides();
+        }
+
+        private void UpdateGuides(Data? _datum = null)
+        {
+            var lines = MainCanvas.Children.OfType<Line>().ToList();
+            var w = MainCanvas.ActualWidth;
+            var h = MainCanvas.ActualHeight;
+            for (var i = 0; i < Math.Min(3, data.Count); i++)
+            {
+                var datum = data[i];
+                if (null == _datum || _datum == datum)
+                {
+                    var lineH = lines[i];
+                    lineH.X1 = 0;
+                    lineH.Y1 = data[i].Local.Y * h;
+                    lineH.X2 = w;
+                    lineH.Y2 = data[i].Local.Y * h;
+                    lineH.Visibility = AxisGuides ? Visibility.Visible : Visibility.Collapsed;
+
+                    var lineV = lines[3 + i];
+                    lineV.X1 = data[i].Local.X * w;
+                    lineV.Y1 = 0;
+                    lineV.X2 = data[i].Local.X * w;
+                    lineV.Y2 = h;
+                    lineV.Visibility = AxisGuides ? Visibility.Visible : Visibility.Collapsed;
+                }
+            }
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
@@ -542,6 +600,9 @@ namespace DigitizePlot
                         break;
                     case "tbSpacing":
                         AutoSpacing = value;
+                        break;
+                    case "tbPixelStep":
+                        PixelStep = (int)value;
                         break;
                 }
                 UpdateData();
@@ -725,6 +786,11 @@ namespace DigitizePlot
         private void TextBox_LostFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
             UpdateTextBox(sender);
+        }
+
+        private void cbGuides_Checked(object sender, RoutedEventArgs e)
+        {
+            UpdateData();
         }
     }
 

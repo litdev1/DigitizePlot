@@ -127,6 +127,9 @@
   <data name="ClipboardOut" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Images\ClipboardOut.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="Guide" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Images\Guide.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="Help" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Images\Help.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
