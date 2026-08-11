@@ -31,11 +31,14 @@ namespace DigitizePlot
     /// </summary>
     public partial class MainWindow : Window
     {
+        public Version? Version { get { return new Version(1, 1); } }
+
         Bitmap mainBitmap;
         public bool AxisGuides { get; set; } = false;
         public bool AutoMode { get; set; } = false;
         public double AutoTolerance { get; set; } = 35;
         public double AutoSpacing { get; set; } = 20;
+        public string AutoSpaceType { get; set; } = "X Distance";
         public int PixelStep { get; set; } = 1;
         public bool SortMode { get; set; } = true;
         public double ZoomScale { get; set; } = 3;
@@ -58,6 +61,36 @@ namespace DigitizePlot
             rcbTypeX.Items.Add("Logarithmic");
             rcbTypeY.Items.Add("Linear");
             rcbTypeY.Items.Add("Logarithmic");
+            rcbTypeX.Items.Add("Linear");
+            rcbTypeSpacing.Items.Add("X Distance");
+            rcbTypeSpacing.Items.Add("Distance");
+        }
+
+        private void Window_Initialized(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.Reload();
+            if (Properties.Settings.Default.WinState > 0) WindowState = (WindowState)Properties.Settings.Default.WinState;
+            if (Properties.Settings.Default.WinTop > 0) Top = Properties.Settings.Default.WinTop;
+            if (Properties.Settings.Default.WinLeft > 0) Left = Properties.Settings.Default.WinLeft;
+            if (Properties.Settings.Default.WinWidth > 0) Width = Properties.Settings.Default.WinWidth;
+            if (Properties.Settings.Default.WinHeight > 0) Height = Properties.Settings.Default.WinHeight;
+            if (Width < 200) Width = 1200;
+            if (Height < 100) Height = 800;
+            MainOpacity = Properties.Settings.Default.Opacity;
+            ZoomScale = Properties.Settings.Default.Magnify;
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            Properties.Settings.Default.WinState = WindowState == WindowState.Minimized ? (int)WindowState.Normal : (int)WindowState;
+            Properties.Settings.Default.WinTop = Top;
+            Properties.Settings.Default.WinLeft = Left;
+            Properties.Settings.Default.WinWidth = Width;
+            Properties.Settings.Default.WinHeight = Height;
+            Properties.Settings.Default.Version = Version?.ToString();
+            Properties.Settings.Default.Opacity = MainOpacity;
+            Properties.Settings.Default.Magnify = ZoomScale;
+            Properties.Settings.Default.Save();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -130,7 +163,7 @@ namespace DigitizePlot
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show("createBitmap: " + ex.Message);
                 return null;
             }
         }
@@ -207,7 +240,7 @@ namespace DigitizePlot
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                //MessageBox.Show("updateSubImage: " + ex.Message);
             }
         }
 
@@ -341,14 +374,19 @@ namespace DigitizePlot
 
             allData = allData.OrderBy(p => p.X).ToList();
             var last = allData[0];
+            var dir = new Vector(0, 0);
             AddDataPoint(image, last);
             foreach (var point in allData)
             {
-                //if ((point - last).Length > AutoSpacing)
-                if (point.X - last.X > AutoSpacing)
+                var dot = (point.X - last.X) * dir.X + (point.Y - last.Y) * dir.Y;
+                if ((point.X - last.X > AutoSpacing) ||
+                    (AutoSpaceType == "Distance" && (point - last).Length > AutoSpacing)
+                    && ((dot > 0 && point.X >= last.X) || point.X > last.X))
                 {
+                    dir = point - last;
+                    //dir.Normalize();
+                    AddDataPoint(image, point);
                     last = point;
-                    AddDataPoint(image, last);
                 }
             }
 
@@ -712,7 +750,7 @@ namespace DigitizePlot
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message);
+                    MessageBox.Show("Open_Click: " + ex.Message);
                 }
 
                 if (null != tempList)

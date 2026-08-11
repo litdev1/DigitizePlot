@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:DigitizePlot"
         mc:Ignorable="d"
         xmlns:ribbon="http://schemas.microsoft.com/winfx/2006/xaml/presentation/ribbon"
-        Title="DigitizePlot" Height="1000" Width="1200" Loaded="Window_Loaded" PreviewKeyDown="Window_KeyDown">
+        Title="DigitizePlot" Height="800" Width="1200" Loaded="Window_Loaded" PreviewKeyDown="Window_KeyDown" Initialized="Window_Initialized" Closing="Window_Closing">
     <DockPanel>
         <Ribbon DockPanel.Dock="Top" Loaded="Ribbon_Loaded">
             <RibbonTab>
@@ -47,8 +47,14 @@
                 <RibbonGroup x:Name="AutoGroup" Header="Auto mode">
                     <RibbonCheckBox Name="cbAuto" Label="Auto on" LargeImageSource="/Images/Wizard.png" IsChecked="{Binding AutoMode, Mode=TwoWay}" KeyTip="A" ToolTipTitle="Auto data detection"/>
                     <RibbonTextBox Name="tbTolerance" Label="Tolerance" Text="{Binding AutoTolerance, StringFormat=\{0:N0\}, Mode=TwoWay}" KeyTip="T" TextBoxWidth="50" ToolTipTitle="Auto detection theshold (rms R,G,B)" LostKeyboardFocus="TextBox_LostFocus"/>
-                    <RibbonTextBox Name="tbSpacing" Label="Spacing" Text="{Binding AutoSpacing, StringFormat=\{0:N0\}, Mode=TwoWay}" KeyTip="S" TextBoxWidth="50" ToolTipTitle="Auto point spacing (screen pixels)" LostKeyboardFocus="TextBox_LostFocus"/>
                     <RibbonTextBox Name="tbPixelStep" Label="Pixel step" Text="{Binding PixelStep, StringFormat=\{0:N0\}, Mode=TwoWay}" KeyTip="P" TextBoxWidth="50" ToolTipTitle="Pixels earch distance" LostKeyboardFocus="TextBox_LostFocus"/>
+                    <RibbonTextBox Name="tbSpacing" Label="Spacing" Text="{Binding AutoSpacing, StringFormat=\{0:N0\}, Mode=TwoWay}" KeyTip="S" TextBoxWidth="50" ToolTipTitle="Auto point spacing (screen pixels)" LostKeyboardFocus="TextBox_LostFocus"/>
+                    <RibbonComboBox Label="Spacing type" KeyTip="D" SelectionBoxWidth="70">
+                        <RibbonGallery Name="rcbSpacing" SelectedValue="{Binding AutoSpaceType}" SelectionChanged="Type_SelectionChanged">
+                            <RibbonGalleryCategory Name="rcbTypeSpacing" />
+                        </RibbonGallery>
+                    </RibbonComboBox>
+
                 </RibbonGroup>
                 <!-- Auto group-->
                 <RibbonGroup x:Name="HelpGroup" Header="Help">
@@ -56,6 +62,9 @@
                 </RibbonGroup>
             </RibbonTab>
         </Ribbon>
+        <StatusBar x:Name="statusBar" Height="30" VerticalAlignment="Bottom" DockPanel.Dock="Bottom" VerticalContentAlignment="Bottom" Margin="0" HorizontalContentAlignment="Stretch">
+            <StatusBarItem x:Name="statusVersion" Content="{Binding Version, Mode=OneWay}" ContentStringFormat="Version {0}"/>
+        </StatusBar>
         <Grid d:DataContext="{d:DesignInstance local:MainWindow}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
@@ -84,21 +93,21 @@
                     <Label VerticalAlignment="Top" Margin="0,20,104,0" HorizontalAlignment="Right" Width="86" Content="Origin Y" VerticalContentAlignment="Top" HorizontalContentAlignment="Right" Padding="0,0,5,0"/>
                     <Label VerticalAlignment="Top" Margin="0,40,104,0" HorizontalAlignment="Right" Width="86" Content="X-Axis offset" VerticalContentAlignment="Top" HorizontalContentAlignment="Right" Padding="0,0,5,0"/>
                     <Label VerticalAlignment="Top" Margin="0,60,104,0" HorizontalAlignment="Right" Width="86" Content="Y-Axis offset" VerticalContentAlignment="Top" HorizontalContentAlignment="Right" Padding="0,0,5,0"/>
-                    <TextBox Name="OriginX" Text="{Binding data[0].X, StringFormat=\{0:G3\}, Mode=OneWayToSource}" LostKeyboardFocus="TextBox_LostFocus" 
+                    <TextBox Name="OriginX" Text="{Binding data[0].X, StringFormat=\{0:G6\}, Mode=OneWayToSource}" LostKeyboardFocus="TextBox_LostFocus" 
                          VerticalAlignment="Top" Margin="0,0,0,0" HorizontalAlignment="Right" Width="100"/>
-                    <TextBox Name="OriginY" Text="{Binding data[0].Y, StringFormat=\{0:G3\}, Mode=OneWayToSource}" LostKeyboardFocus="TextBox_LostFocus" 
+                    <TextBox Name="OriginY" Text="{Binding data[0].Y, StringFormat=\{0:6\}, Mode=OneWayToSource}" LostKeyboardFocus="TextBox_LostFocus" 
                          VerticalAlignment="Top" Margin="0,20,0,0" HorizontalAlignment="Right" Width="100"/>
-                    <TextBox Name="XAxis" Text="{Binding data[1].X, StringFormat=\{0:G3\}, Mode=OneWayToSource}" LostKeyboardFocus="TextBox_LostFocus" 
+                    <TextBox Name="XAxis" Text="{Binding data[1].X, StringFormat=\{0:G6\}, Mode=OneWayToSource}" LostKeyboardFocus="TextBox_LostFocus" 
                          VerticalAlignment="Top" Margin="0,40,0,0" HorizontalAlignment="Right" Width="100"/>
-                    <TextBox Name="YAxis" Text="{Binding data[2].Y, StringFormat=\{0:G3\}, Mode=OneWayToSource}" LostKeyboardFocus="TextBox_LostFocus" 
+                    <TextBox Name="YAxis" Text="{Binding data[2].Y, StringFormat=\{0:G6\}, Mode=OneWayToSource}" LostKeyboardFocus="TextBox_LostFocus" 
                          VerticalAlignment="Top" Margin="0,60,0,0" HorizontalAlignment="Right" Width="100"/>
                 </Grid>
                 <DataGrid Name="ResultsGrid" HeadersVisibility="Column" 
                   AutoGenerateColumns="False" CanUserReorderColumns="False" CanUserSortColumns="False" CanUserAddRows="False" Margin="0,88,0,0">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Label" Binding="{Binding Label, Mode=OneWay}" Width="Auto" IsReadOnly="True" Visibility="Collapsed"/>
-                        <DataGridTextColumn Header="X" Binding="{Binding X, StringFormat=\{0:G3\}, Mode=TwoWay}" Width="*" IsReadOnly="True"/>
-                        <DataGridTextColumn Header="Y" Binding="{Binding Y, StringFormat=\{0:G3\}, Mode=TwoWay}" Width="*" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="X" Binding="{Binding X, StringFormat=\{0:G6\}, Mode=TwoWay}" Width="*" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="Y" Binding="{Binding Y, StringFormat=\{0:G6\}, Mode=TwoWay}" Width="*" IsReadOnly="True"/>
                     </DataGrid.Columns>
                     <DataGrid.RowStyle>
                         <Style TargetType="{x:Type DataGridRow}">
