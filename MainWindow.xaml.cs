@@ -1,25 +1,14 @@
 ﻿using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Drawing;
 using System.IO;
-using System.Reflection;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Ribbon;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.Windows.Shell;
-using System.Xml;
 using System.Xml.Serialization;
-using static System.Net.Mime.MediaTypeNames;
 using Image = System.Windows.Controls.Image;
 using Pen = System.Drawing.Pen;
 using Point = System.Windows.Point;
@@ -35,6 +24,7 @@ namespace DigitizePlot
 
         Bitmap mainBitmap;
         public bool AxisGuides { get; set; } = false;
+        public bool NearestNeighbour { get; set; } = false;
         public bool AutoMode { get; set; } = false;
         public double AutoTolerance { get; set; } = 35;
         public double AutoSpacing { get; set; } = 20;
@@ -55,6 +45,7 @@ namespace DigitizePlot
         public MainWindow()
         {
             InitializeComponent();
+
             // Set the window as the data context so bindings in XAML can resolve
             this.DataContext = this;
             rcbTypeX.Items.Add("Linear");
@@ -74,10 +65,23 @@ namespace DigitizePlot
             if (Properties.Settings.Default.WinLeft > 0) Left = Properties.Settings.Default.WinLeft;
             if (Properties.Settings.Default.WinWidth > 0) Width = Properties.Settings.Default.WinWidth;
             if (Properties.Settings.Default.WinHeight > 0) Height = Properties.Settings.Default.WinHeight;
-            if (Width < 200) Width = 1200;
-            if (Height < 100) Height = 800;
             MainOpacity = Properties.Settings.Default.Opacity;
             ZoomScale = Properties.Settings.Default.Magnify;
+            ZoomScale = Properties.Settings.Default.Magnify;
+            SortMode = Properties.Settings.Default.SortMode;
+            AutoMode = Properties.Settings.Default.AutoMode;
+            AutoTolerance = Properties.Settings.Default.AutoTolerance;
+            PixelStep = Properties.Settings.Default.PixelStep;
+            AutoSpacing = Properties.Settings.Default.AutoSpacing;
+            AutoSpaceType = Properties.Settings.Default.AutoSpaceType;
+            AxisGuides = Properties.Settings.Default.AxisGuides;
+            StyleX = Properties.Settings.Default.StyleX;
+            StyleY = Properties.Settings.Default.StyleX;
+            NearestNeighbour = Properties.Settings.Default.NearestNeighbour;
+
+            if (Width < 200) Width = 1200;
+            if (Height < 100) Height = 800;
+            BitmapScaling();
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -90,6 +94,17 @@ namespace DigitizePlot
             Properties.Settings.Default.Version = Version?.ToString();
             Properties.Settings.Default.Opacity = MainOpacity;
             Properties.Settings.Default.Magnify = ZoomScale;
+            Properties.Settings.Default.SortMode = SortMode;
+            Properties.Settings.Default.AutoMode = AutoMode;
+            Properties.Settings.Default.AutoTolerance = AutoTolerance;
+            Properties.Settings.Default.PixelStep = PixelStep;
+            Properties.Settings.Default.AutoSpacing = AutoSpacing;
+            Properties.Settings.Default.AutoSpaceType = AutoSpaceType;
+            Properties.Settings.Default.AxisGuides = AxisGuides;
+            Properties.Settings.Default.StyleX = StyleX;
+            Properties.Settings.Default.StyleX = StyleY;
+            Properties.Settings.Default.NearestNeighbour = NearestNeighbour;
+
             Properties.Settings.Default.Save();
         }
 
@@ -97,6 +112,12 @@ namespace DigitizePlot
         {
             mainBitmap = createBitmap(MainImage);
             ResultsGrid.ItemsSource = data;
+        }
+
+        private void BitmapScaling()
+        {
+            MainImage.SetValue(RenderOptions.BitmapScalingModeProperty, NearestNeighbour ? BitmapScalingMode.NearestNeighbor : BitmapScalingMode.HighQuality);
+            SubImage.SetValue(RenderOptions.BitmapScalingModeProperty, NearestNeighbour ? BitmapScalingMode.NearestNeighbor : BitmapScalingMode.HighQuality);
         }
 
         private void MainImage_Drop(object sender, DragEventArgs e)
@@ -178,6 +199,9 @@ namespace DigitizePlot
                 float height = (float)(SubImage.ActualHeight / ZoomScale);
                 float left = (float)(x * w - width / 2);
                 float top = (float)(y * h - height / 2);
+
+                var color = mainBitmap.GetPixel((int)(x * w), (int)(y * h));
+                Swatch.Fill = new SolidColorBrush(System.Windows.Media.Color.FromArgb(color.A, color.R, color.G, color.B));
 
                 Bitmap image = new Bitmap((int)width, (int)height, mainBitmap.PixelFormat);
                 var g = Graphics.FromImage(image);
@@ -384,7 +408,6 @@ namespace DigitizePlot
                     && ((dot > 0 && point.X >= last.X) || point.X > last.X))
                 {
                     dir = point - last;
-                    //dir.Normalize();
                     AddDataPoint(image, point);
                     last = point;
                 }
@@ -421,9 +444,13 @@ namespace DigitizePlot
         private void AddDataPoint(Image image, Point pos)
         {
             Data newDatum = new Data();
-            data.Add(newDatum);
-
             newDatum.Local = new Point(pos.X / image.ActualWidth, pos.Y / image.ActualHeight);
+            //var near = data.Where(x => (x.Local - newDatum.Local).Length < 0.001).Count();
+            var near = data.Where(x => Math.Abs(x.Local.X * image.ActualWidth - pos.X) < MarkerWidth &&
+            Math.Abs(x.Local.Y * image.ActualHeight - pos.Y) < MarkerWidth).Count();
+            if (near > 0) return;
+
+            data.Add(newDatum);
             if (data.Count == 1)
             {
                 newDatum.IsVisible = false;
@@ -875,17 +902,23 @@ namespace DigitizePlot
             help.Show();
         }
 
-        private void cbSort_Checked(object sender, RoutedEventArgs e)
-        {
-            UpdateData();
-        }
-
         private void TextBox_LostFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
             UpdateTextBox(sender);
         }
 
-        private void cbGuides_Checked(object sender, RoutedEventArgs e)
+        private void cbGuides_Click(object sender, RoutedEventArgs e)
+        {
+            UpdateData();
+        }
+
+        private void cbNearestNeighbour_Click(object sender, RoutedEventArgs e)
+        {
+            BitmapScaling();
+            UpdateData();
+        }
+
+        private void cbSort_Clicked(object sender, RoutedEventArgs e)
         {
             UpdateData();
         }

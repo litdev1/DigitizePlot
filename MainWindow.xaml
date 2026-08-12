@@ -25,7 +25,7 @@
                 <RibbonGroup x:Name="DataGroup" Header="Data">
                     <RibbonButton Label="Clear all data" SmallImageSource="/Images/New.png" KeyTip="A" Click="Reset_Click" ToolTipTitle="Delete all data"/>
                     <RibbonButton Label="Clear points" SmallImageSource="/Images/Clear.png" KeyTip="P" Click="Points_Click" ToolTipTitle="Delete all points"/>
-                    <RibbonCheckBox Name="cbSort" Label="Sort" SmallImageSource="/Images/Sort.png" IsChecked="{Binding SortMode, Mode=TwoWay}" KeyTip="S" ToolTipTitle="Sort data by X value" Checked="cbSort_Checked" Unchecked="cbSort_Checked"/>
+                    <RibbonCheckBox Name="cbSort" Label="Sort" SmallImageSource="/Images/Sort.png" IsChecked="{Binding SortMode, Mode=TwoWay}" KeyTip="S" ToolTipTitle="Sort data by X value" Click="cbSort_Clicked"/>
                     <RibbonComboBox Label="Data type X" KeyTip="X" SelectionBoxWidth="70">
                         <RibbonGallery Name="rcbX" SelectedValue="{Binding StyleX}" SelectionChanged="Type_SelectionChanged">
                             <RibbonGalleryCategory Name="rcbTypeX" />
@@ -41,7 +41,8 @@
                 <RibbonGroup x:Name="ViewGroup" Header="View">
                     <RibbonTextBox Name="tbOpacity" Label="Opacity" Text="{Binding MainOpacity, StringFormat=\{0:N2\}, Mode=TwoWay}" KeyTip="T" TextBoxWidth="50" LostKeyboardFocus="TextBox_LostFocus"/>
                     <RibbonTextBox Name="tbMagnify" Label="Magnify" Text="{Binding ZoomScale, StringFormat=\{0:N1\}, Mode=TwoWay}" KeyTip="M" TextBoxWidth="50" LostKeyboardFocus="TextBox_LostFocus"/>
-                    <RibbonCheckBox Name="cbGuides" Label="Guides" SmallImageSource="/Images/Guide.png" IsChecked="{Binding AxisGuides, Mode=TwoWay}" KeyTip="S" ToolTipTitle="Horizontal and vertical axis point guides" Checked="cbGuides_Checked" Unchecked="cbGuides_Checked"/>
+                    <RibbonCheckBox Name="cbGuides" Label="Axis guides" SmallImageSource="/Images/Guide.png" IsChecked="{Binding AxisGuides, Mode=TwoWay}" KeyTip="S" ToolTipTitle="Horizontal and vertical axis point guides" Click="cbGuides_Click"/>
+                    <RibbonCheckBox Name="cbNearestNeighbour" Label="Nearest neighbour" SmallImageSource="/Images/Bitmap.png" IsChecked="{Binding NearestNeighbour, Mode=TwoWay}" KeyTip="N" ToolTipTitle="Use nearest neighbour bitmap interpolation" Click="cbNearestNeighbour_Click"/>
                 </RibbonGroup>
                 <!-- Auto group-->
                 <RibbonGroup x:Name="AutoGroup" Header="Auto mode">
@@ -101,6 +102,7 @@
                          VerticalAlignment="Top" Margin="0,40,0,0" HorizontalAlignment="Right" Width="100"/>
                     <TextBox Name="YAxis" Text="{Binding data[2].Y, StringFormat=\{0:G6\}, Mode=OneWayToSource}" LostKeyboardFocus="TextBox_LostFocus" 
                          VerticalAlignment="Top" Margin="0,60,0,0" HorizontalAlignment="Right" Width="100"/>
+                    <Rectangle x:Name="Swatch" HorizontalAlignment="Left" Height="30" Margin="26,26,0,0" Stroke="Black" VerticalAlignment="Top" Width="30"/>
                 </Grid>
                 <DataGrid Name="ResultsGrid" HeadersVisibility="Column" 
                   AutoGenerateColumns="False" CanUserReorderColumns="False" CanUserSortColumns="False" CanUserAddRows="False" Margin="0,88,0,0">

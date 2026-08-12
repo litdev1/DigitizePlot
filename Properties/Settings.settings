@@ -26,5 +26,35 @@
     <Setting Name="Magnify" Type="System.Double" Scope="User">
       <Value Profile="(Default)">3</Value>
     </Setting>
+    <Setting Name="SortMode" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="AutoMode" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="AutoTolerance" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">35</Value>
+    </Setting>
+    <Setting Name="PixelStep" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">1</Value>
+    </Setting>
+    <Setting Name="AutoSpacing" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">20</Value>
+    </Setting>
+    <Setting Name="AutoSpaceType" Type="System.String" Scope="User">
+      <Value Profile="(Default)">X Distance</Value>
+    </Setting>
+    <Setting Name="AxisGuides" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="StyleX" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Linear</Value>
+    </Setting>
+    <Setting Name="StyleY" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Linear</Value>
+    </Setting>
+    <Setting Name="NearestNeighbour" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
