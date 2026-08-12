@@ -397,8 +397,8 @@ namespace DigitizePlot
             }
 
             allData = allData.OrderBy(p => p.X).ToList();
-            var last = allData[0];
             var dir = new Vector(0, 0);
+            var last = allData.First();
             AddDataPoint(image, last);
             foreach (var point in allData)
             {
@@ -412,6 +412,7 @@ namespace DigitizePlot
                     last = point;
                 }
             }
+            AddDataPoint(image, allData.Last());
 
             //mainBitmap = working;
         }
@@ -441,14 +442,14 @@ namespace DigitizePlot
             return hue < 0 ? 360 + 60 * hue : 60 * hue;
         }
 
-        private void AddDataPoint(Image image, Point pos)
+        private bool AddDataPoint(Image image, Point pos)
         {
             Data newDatum = new Data();
             newDatum.Local = new Point(pos.X / image.ActualWidth, pos.Y / image.ActualHeight);
             //var near = data.Where(x => (x.Local - newDatum.Local).Length < 0.001).Count();
             var near = data.Where(x => Math.Abs(x.Local.X * image.ActualWidth - pos.X) < MarkerWidth &&
             Math.Abs(x.Local.Y * image.ActualHeight - pos.Y) < MarkerWidth).Count();
-            if (near > 0) return;
+            if (near > 0) return false;
 
             data.Add(newDatum);
             if (data.Count == 1)
@@ -490,6 +491,7 @@ namespace DigitizePlot
                 newDatum.Label = "Point";
             }
             AddEllipse(newDatum);
+            return true;
         }
 
         private void MainImage_MouseUp(object sender, MouseButtonEventArgs e)

@@ -12,26 +12,26 @@
             <RibbonTab>
                 <!-- File group-->
                 <RibbonGroup x:Name="FileGroup" Header="File">
-                    <RibbonButton Label="Open image" SmallImageSource="/Images/OpenImage.png" KeyTip="I" Click="OpenImage_Click" ToolTipTitle="Open a new image file"/>
-                    <RibbonButton Label="Save data" SmallImageSource="/Images/Save.png" KeyTip="S" Click="Save_Click" ToolTipTitle="Save current data"/>
-                    <RibbonButton Label="Load data" SmallImageSource="/Images/Open.png" KeyTip="L" Click="Open_Click" ToolTipTitle="Load saved data"/>
+                    <RibbonButton Label="Open image" SmallImageSource="/Images/OpenImage.png" Click="OpenImage_Click" ToolTipTitle="Open an load a new image file"/>
+                    <RibbonButton Label="Save data" SmallImageSource="/Images/Save.png" Click="Save_Click" ToolTipTitle="Save current point data"/>
+                    <RibbonButton Label="Load data" SmallImageSource="/Images/Open.png" Click="Open_Click" ToolTipTitle="Load saved point data"/>
                 </RibbonGroup>
                 <!-- Clipboard group-->
                 <RibbonGroup x:Name="ClipboardGroup" Header="Clipboard">
-                    <RibbonButton Label="Load image" SmallImageSource="/Images/ClipboardIn.png" KeyTip="V" Click="ClipboardIn_Click" ToolTipTitle="Load image from clipboard"/>
-                    <RibbonButton Label="Export data" SmallImageSource="/Images/ClipboardOut.png" KeyTip="C" Click="ClipboardOut_Click" ToolTipTitle="Export digitised data to clipboard"/>
+                    <RibbonButton Label="Load image" SmallImageSource="/Images/ClipboardIn.png" Click="ClipboardIn_Click" ToolTipTitle="Load image from clipboard"/>
+                    <RibbonButton Label="Export data" SmallImageSource="/Images/ClipboardOut.png" Click="ClipboardOut_Click" ToolTipTitle="Export digitised data to clipboard"/>
                 </RibbonGroup>
                 <!-- Data group-->
                 <RibbonGroup x:Name="DataGroup" Header="Data">
-                    <RibbonButton Label="Clear all data" SmallImageSource="/Images/New.png" KeyTip="A" Click="Reset_Click" ToolTipTitle="Delete all data"/>
-                    <RibbonButton Label="Clear points" SmallImageSource="/Images/Clear.png" KeyTip="P" Click="Points_Click" ToolTipTitle="Delete all points"/>
-                    <RibbonCheckBox Name="cbSort" Label="Sort" SmallImageSource="/Images/Sort.png" IsChecked="{Binding SortMode, Mode=TwoWay}" KeyTip="S" ToolTipTitle="Sort data by X value" Click="cbSort_Clicked"/>
-                    <RibbonComboBox Label="Data type X" KeyTip="X" SelectionBoxWidth="70">
+                    <RibbonButton Label="Clear all data" SmallImageSource="/Images/New.png" Click="Reset_Click" ToolTipTitle="Delete all data"/>
+                    <RibbonButton Label="Clear points" SmallImageSource="/Images/Clear.png" Click="Points_Click" ToolTipTitle="Delete all points"/>
+                    <RibbonCheckBox Name="cbSort" Label="Sort" SmallImageSource="/Images/Sort.png" IsChecked="{Binding SortMode, Mode=TwoWay}" ToolTipTitle="Sort data by X value" Click="cbSort_Clicked"/>
+                    <RibbonComboBox Label="Data type X" SelectionBoxWidth="70" ToolTipTitle="X axis scaling">
                         <RibbonGallery Name="rcbX" SelectedValue="{Binding StyleX}" SelectionChanged="Type_SelectionChanged">
                             <RibbonGalleryCategory Name="rcbTypeX" />
                         </RibbonGallery>
                     </RibbonComboBox>
-                    <RibbonComboBox Label="Data type Y" KeyTip="Y" SelectionBoxWidth="70">
+                    <RibbonComboBox Label="Data type Y" SelectionBoxWidth="70" ToolTipTitle="Y axis scaling">
                         <RibbonGallery Name="rcbY" SelectedValue="{Binding StyleY}" SelectionChanged="Type_SelectionChanged">
                             <RibbonGalleryCategory Name="rcbTypeY"/>
                         </RibbonGallery>
@@ -39,18 +39,18 @@
                 </RibbonGroup>
                 <!-- View group-->
                 <RibbonGroup x:Name="ViewGroup" Header="View">
-                    <RibbonTextBox Name="tbOpacity" Label="Opacity" Text="{Binding MainOpacity, StringFormat=\{0:N2\}, Mode=TwoWay}" KeyTip="T" TextBoxWidth="50" LostKeyboardFocus="TextBox_LostFocus"/>
-                    <RibbonTextBox Name="tbMagnify" Label="Magnify" Text="{Binding ZoomScale, StringFormat=\{0:N1\}, Mode=TwoWay}" KeyTip="M" TextBoxWidth="50" LostKeyboardFocus="TextBox_LostFocus"/>
-                    <RibbonCheckBox Name="cbGuides" Label="Axis guides" SmallImageSource="/Images/Guide.png" IsChecked="{Binding AxisGuides, Mode=TwoWay}" KeyTip="S" ToolTipTitle="Horizontal and vertical axis point guides" Click="cbGuides_Click"/>
-                    <RibbonCheckBox Name="cbNearestNeighbour" Label="Nearest neighbour" SmallImageSource="/Images/Bitmap.png" IsChecked="{Binding NearestNeighbour, Mode=TwoWay}" KeyTip="N" ToolTipTitle="Use nearest neighbour bitmap interpolation" Click="cbNearestNeighbour_Click"/>
+                    <RibbonTextBox Name="tbOpacity" Label="Opacity" Text="{Binding MainOpacity, StringFormat=\{0:N2\}, Mode=TwoWay}" TextBoxWidth="50" LostKeyboardFocus="TextBox_LostFocus" ToolTipTitle="Set opacity of main view image"/>
+                    <RibbonTextBox Name="tbMagnify" Label="Magnify" Text="{Binding ZoomScale, StringFormat=\{0:N1\}, Mode=TwoWay}" TextBoxWidth="50" LostKeyboardFocus="TextBox_LostFocus" ToolTipTitle="Magnification for details view"/>
+                    <RibbonCheckBox Name="cbGuides" Label="Axis guides" SmallImageSource="/Images/Guide.png" IsChecked="{Binding AxisGuides, Mode=TwoWay}" ToolTipTitle="Horizontal and vertical axis point guides" Click="cbGuides_Click"/>
+                    <RibbonCheckBox Name="cbNearestNeighbour" Label="Nearest neighbour" SmallImageSource="/Images/Bitmap.png" IsChecked="{Binding NearestNeighbour, Mode=TwoWay}" ToolTipTitle="Use nearest neighbour bitmap interpolation" Click="cbNearestNeighbour_Click"/>
                 </RibbonGroup>
                 <!-- Auto group-->
                 <RibbonGroup x:Name="AutoGroup" Header="Auto mode">
-                    <RibbonCheckBox Name="cbAuto" Label="Auto on" LargeImageSource="/Images/Wizard.png" IsChecked="{Binding AutoMode, Mode=TwoWay}" KeyTip="A" ToolTipTitle="Auto data detection"/>
-                    <RibbonTextBox Name="tbTolerance" Label="Tolerance" Text="{Binding AutoTolerance, StringFormat=\{0:N0\}, Mode=TwoWay}" KeyTip="T" TextBoxWidth="50" ToolTipTitle="Auto detection theshold (rms R,G,B)" LostKeyboardFocus="TextBox_LostFocus"/>
-                    <RibbonTextBox Name="tbPixelStep" Label="Pixel step" Text="{Binding PixelStep, StringFormat=\{0:N0\}, Mode=TwoWay}" KeyTip="P" TextBoxWidth="50" ToolTipTitle="Pixels earch distance" LostKeyboardFocus="TextBox_LostFocus"/>
-                    <RibbonTextBox Name="tbSpacing" Label="Spacing" Text="{Binding AutoSpacing, StringFormat=\{0:N0\}, Mode=TwoWay}" KeyTip="S" TextBoxWidth="50" ToolTipTitle="Auto point spacing (screen pixels)" LostKeyboardFocus="TextBox_LostFocus"/>
-                    <RibbonComboBox Label="Spacing type" KeyTip="D" SelectionBoxWidth="70">
+                    <RibbonCheckBox Name="cbAuto" Label="Auto on" LargeImageSource="/Images/Wizard.png" IsChecked="{Binding AutoMode, Mode=TwoWay}" ToolTipTitle="Auto data detection"/>
+                    <RibbonTextBox Name="tbTolerance" Label="Tolerance" Text="{Binding AutoTolerance, StringFormat=\{0:N0\}, Mode=TwoWay}" TextBoxWidth="50" ToolTipTitle="Auto detection theshold (rms R,G,B)" LostKeyboardFocus="TextBox_LostFocus"/>
+                    <RibbonTextBox Name="tbPixelStep" Label="Pixel step" Text="{Binding PixelStep, StringFormat=\{0:N0\}, Mode=TwoWay}" TextBoxWidth="50" ToolTipTitle="Pixels earch distance" LostKeyboardFocus="TextBox_LostFocus"/>
+                    <RibbonTextBox Name="tbSpacing" Label="Spacing" Text="{Binding AutoSpacing, StringFormat=\{0:N0\}, Mode=TwoWay}" TextBoxWidth="50" ToolTipTitle="Auto point spacing (screen pixels)" LostKeyboardFocus="TextBox_LostFocus"/>
+                    <RibbonComboBox Label="Spacing type" SelectionBoxWidth="70" ToolTipTitle="Method used for point spacing">
                         <RibbonGallery Name="rcbSpacing" SelectedValue="{Binding AutoSpaceType}" SelectionChanged="Type_SelectionChanged">
                             <RibbonGalleryCategory Name="rcbTypeSpacing" />
                         </RibbonGallery>
@@ -59,7 +59,7 @@
                 </RibbonGroup>
                 <!-- Auto group-->
                 <RibbonGroup x:Name="HelpGroup" Header="Help">
-                    <RibbonButton Label="Help" LargeImageSource="/Images/Help.png" KeyTip="P" Click="Help_Click" ToolTipTitle="Help"/>
+                    <RibbonButton Label="Help" LargeImageSource="/Images/Help.png" Click="Help_Click" ToolTipTitle="Help description of tool with examples"/>
                 </RibbonGroup>
             </RibbonTab>
         </Ribbon>
