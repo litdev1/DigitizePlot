@@ -9,6 +9,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Xml.Serialization;
+using static System.Net.Mime.MediaTypeNames;
 using Image = System.Windows.Controls.Image;
 using Pen = System.Drawing.Pen;
 using Point = System.Windows.Point;
@@ -52,7 +53,6 @@ namespace DigitizePlot
             rcbTypeX.Items.Add("Logarithmic");
             rcbTypeY.Items.Add("Linear");
             rcbTypeY.Items.Add("Logarithmic");
-            rcbTypeX.Items.Add("Linear");
             rcbTypeSpacing.Items.Add("X Distance");
             rcbTypeSpacing.Items.Add("Distance");
         }
@@ -170,6 +170,7 @@ namespace DigitizePlot
                 {
                     BitmapMetadata metadata = new BitmapMetadata("png");
                     BitmapFrame frame = BitmapFrame.Create((BitmapSource)image.Source, null, metadata, null);
+                    statusImageSize.Content = "Image size " + (int)image.Source.Width + " x " + (int)image.Source.Height;
 
                     BitmapEncoder enc = new PngBitmapEncoder();
                     enc.Frames.Add(frame);
@@ -923,6 +924,11 @@ namespace DigitizePlot
         private void cbSort_Clicked(object sender, RoutedEventArgs e)
         {
             UpdateData();
+        }
+
+        private void MainImage_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            statusViewSize.Content = " View size " + (int)e.NewSize.Width + " x " + (int)e.NewSize.Height;
         }
     }
 

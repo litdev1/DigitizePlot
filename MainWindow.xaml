@@ -64,7 +64,9 @@
             </RibbonTab>
         </Ribbon>
         <StatusBar x:Name="statusBar" Height="30" VerticalAlignment="Bottom" DockPanel.Dock="Bottom" VerticalContentAlignment="Bottom" Margin="0" HorizontalContentAlignment="Stretch">
-            <StatusBarItem x:Name="statusVersion" Content="{Binding Version, Mode=OneWay}" ContentStringFormat="Version {0}"/>
+            <StatusBarItem x:Name="statusImageSize" HorizontalAlignment="Left"/>
+            <StatusBarItem x:Name="statusViewSize" HorizontalAlignment="Left"/>
+            <StatusBarItem x:Name="statusVersion" Content="{Binding Version, Mode=OneWay}" ContentStringFormat="Version {0}" HorizontalAlignment="Right"/>
         </StatusBar>
         <Grid d:DataContext="{d:DesignInstance local:MainWindow}">
             <Grid.RowDefinitions>
@@ -82,7 +84,7 @@
             <Canvas Name="MainCanvas" Grid.Column="0" Grid.Row="0" Margin="0" Grid.RowSpan="3"/>
             <Image Name="MainImage" Grid.Row="0" Grid.Column="0"  Margin="0" AllowDrop="True" Drop="MainImage_Drop" Source="/Plot.png" Stretch="Fill"
                MouseMove="MainImage_MouseMove" Cursor="Cross" MouseDown="MainImage_MouseDown" MouseUp="MainImage_MouseUp"
-               Opacity="{Binding MainOpacity, Mode=TwoWay}" Grid.RowSpan="3"/>
+               Opacity="{Binding MainOpacity, Mode=TwoWay}" Grid.RowSpan="3" SizeChanged="MainImage_SizeChanged"/>
             <Image Name="SubImage" Grid.Row="0" Grid.Column="2" Margin="0" Stretch="Fill" Source="/Plot.png" SizeChanged="SubImage_SizeChanged" />
             <Canvas Name="SubCanvas" Grid.Row="0" Grid.Column="2" Margin="0">
                 <Line Name="HLine" X1="0" Y1="0" X2="0" Y2="0" Stroke="{Binding LineColor}" StrokeThickness="1" />
