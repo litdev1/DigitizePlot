@@ -85,6 +85,37 @@ namespace DigitizePlot
             if (Width < 200) Width = 1200;
             if (Height < 100) Height = 800;
             BitmapScaling();
+
+            var menu = new ContextMenu();
+            MainImage.ContextMenu = menu;
+            var copyMenuItem = new MenuItem()
+            {
+                Header = "Copy digitized data (Ctrl C)",
+                Icon = new Image() { Source = new BitmapImage(new Uri("pack://application:,,,/Images/ClipboardOut.png")) }
+            };
+            copyMenuItem.Click += (object _sender, RoutedEventArgs _e) => { ClipboardOut(); };
+            menu.Items.Add(copyMenuItem);
+            var pasteMenuItem = new MenuItem()
+            {
+                Header = "Paste image (Ctrl V)",
+                Icon = new Image() { Source = new BitmapImage(new Uri("pack://application:,,,/Images/ClipboardIn.png")) }
+            };
+            pasteMenuItem.Click += (object _sender, RoutedEventArgs _e) => { ClipboardIn(); };
+            menu.Items.Add(pasteMenuItem);
+            var undoMenuItem = new MenuItem()
+            {
+                Header = "Undo last points operation (Ctrl Z)",
+                Icon = new Image() { Source = new BitmapImage(new Uri("pack://application:,,,/Images/Undo.png")) }
+            };
+            undoMenuItem.Click += (object _sender, RoutedEventArgs _e) => { Undo(); };
+            menu.Items.Add(undoMenuItem);
+            var redoMenuItem = new MenuItem()
+            {
+                Header = "Redo last points undo operation (Ctrl Y)",
+                Icon = new Image() { Source = new BitmapImage(new Uri("pack://application:,,,/Images/Redo.png")) }
+            };
+            redoMenuItem.Click += (object _sender, RoutedEventArgs _e) => { Redo(); };
+            menu.Items.Add(redoMenuItem);
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)

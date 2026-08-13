@@ -148,11 +148,17 @@
   <data name="OpenImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Images\OpenImage.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="Redo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Images\Redo.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="Save" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Images\Save.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="Sort" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Images\Sort.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Undo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Images\Undo.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="Wizard" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Images\Wizard.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>

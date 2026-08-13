@@ -63,6 +63,16 @@ namespace DigitizePlot.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] Bitmap {
+            get {
+                object obj = ResourceManager.GetObject("Bitmap", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] Clear {
             get {
                 object obj = ResourceManager.GetObject("Clear", resourceCulture);
@@ -86,6 +96,16 @@ namespace DigitizePlot.Properties {
         internal static byte[] ClipboardOut {
             get {
                 object obj = ResourceManager.GetObject("ClipboardOut", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Guide {
+            get {
+                object obj = ResourceManager.GetObject("Guide", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -143,6 +163,16 @@ namespace DigitizePlot.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] Redo {
+            get {
+                object obj = ResourceManager.GetObject("Redo", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] Save {
             get {
                 object obj = ResourceManager.GetObject("Save", resourceCulture);
@@ -156,6 +186,16 @@ namespace DigitizePlot.Properties {
         internal static byte[] Sort {
             get {
                 object obj = ResourceManager.GetObject("Sort", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Undo {
+            get {
+                object obj = ResourceManager.GetObject("Undo", resourceCulture);
                 return ((byte[])(obj));
             }
         }
