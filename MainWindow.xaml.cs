@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Drawing;
 using System.IO;
+using System.Reflection;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -86,22 +87,68 @@ namespace DigitizePlot
             if (Height < 100) Height = 800;
             BitmapScaling();
 
+
+            var menuDropAlignmentField = typeof(SystemParameters).GetField("_menuDropAlignment", BindingFlags.NonPublic | BindingFlags.Static);
+            Action setAlignmentValue = () => {
+                if (SystemParameters.MenuDropAlignment && menuDropAlignmentField != null) menuDropAlignmentField.SetValue(null, false);
+            };
+            setAlignmentValue();
+            SystemParameters.StaticPropertyChanged += (sender, e) => { setAlignmentValue(); };
+            
             var menu = new ContextMenu();
             MainImage.ContextMenu = menu;
+            var openImageMenuItem = new MenuItem()
+            {
+                Header = "Open and load a new image file",
+                Icon = new Image() { Source = new BitmapImage(new Uri("pack://application:,,,/Images/OpenImage.png")) }
+            };
+            openImageMenuItem.Click += (object _sender, RoutedEventArgs _e) => { OpenImage_Click(null, null); };
+            menu.Items.Add(openImageMenuItem);
+            var saveMenuItem = new MenuItem()
+            {
+                Header = "Save current point data",
+                Icon = new Image() { Source = new BitmapImage(new Uri("pack://application:,,,/Images/Save.png")) }
+            };
+            saveMenuItem.Click += (object _sender, RoutedEventArgs _e) => { Save_Click(null, null); };
+            menu.Items.Add(saveMenuItem);
+            var openMenuItem = new MenuItem()
+            {
+                Header = "Restore previously saved point data",
+                Icon = new Image() { Source = new BitmapImage(new Uri("pack://application:,,,/Images/Open.png")) }
+            };
+            openMenuItem.Click += (object _sender, RoutedEventArgs _e) => { Open_Click(null, null); };
+            menu.Items.Add(openMenuItem);
+            menu.Items.Add(new Separator());
+            var newMenuItem = new MenuItem()
+            {
+                Header = "Delete all data points, including axis",
+                Icon = new Image() { Source = new BitmapImage(new Uri("pack://application:,,,/Images/New.png")) }
+            };
+            newMenuItem.Click += (object _sender, RoutedEventArgs _e) => { Reset_Click(null, null); };
+            menu.Items.Add(newMenuItem);
+            var clearMenuItem = new MenuItem()
+            {
+                Header = "Delete all data points, excluding axis",
+                Icon = new Image() { Source = new BitmapImage(new Uri("pack://application:,,,/Images/Clear.png")) }
+            };
+            clearMenuItem.Click += (object _sender, RoutedEventArgs _e) => { Points_Click(null, null); };
+            menu.Items.Add(clearMenuItem);
+            menu.Items.Add(new Separator());
             var copyMenuItem = new MenuItem()
             {
-                Header = "Copy digitized data (Ctrl C)",
+                Header = "Export digitized data to clipboard (Ctrl C)",
                 Icon = new Image() { Source = new BitmapImage(new Uri("pack://application:,,,/Images/ClipboardOut.png")) }
             };
             copyMenuItem.Click += (object _sender, RoutedEventArgs _e) => { ClipboardOut(); };
             menu.Items.Add(copyMenuItem);
             var pasteMenuItem = new MenuItem()
             {
-                Header = "Paste image (Ctrl V)",
+                Header = "Paste image from clipboard (Ctrl V)",
                 Icon = new Image() { Source = new BitmapImage(new Uri("pack://application:,,,/Images/ClipboardIn.png")) }
             };
             pasteMenuItem.Click += (object _sender, RoutedEventArgs _e) => { ClipboardIn(); };
             menu.Items.Add(pasteMenuItem);
+            menu.Items.Add(new Separator());
             var undoMenuItem = new MenuItem()
             {
                 Header = "Undo last points operation (Ctrl Z)",

@@ -12,19 +12,19 @@
             <RibbonTab>
                 <!-- File group-->
                 <RibbonGroup x:Name="FileGroup" Header="File">
-                    <RibbonButton Label="Open image" SmallImageSource="/Images/OpenImage.png" Click="OpenImage_Click" ToolTipTitle="Open an load a new image file"/>
+                    <RibbonButton Label="Open image" SmallImageSource="/Images/OpenImage.png" Click="OpenImage_Click" ToolTipTitle="Open and load a new image file"/>
                     <RibbonButton Label="Save data" SmallImageSource="/Images/Save.png" Click="Save_Click" ToolTipTitle="Save current point data"/>
-                    <RibbonButton Label="Load data" SmallImageSource="/Images/Open.png" Click="Open_Click" ToolTipTitle="Load saved point data"/>
+                    <RibbonButton Label="Load data" SmallImageSource="/Images/Open.png" Click="Open_Click" ToolTipTitle="Restore previously saved point data"/>
                 </RibbonGroup>
                 <!-- Clipboard group-->
                 <RibbonGroup x:Name="ClipboardGroup" Header="Clipboard">
-                    <RibbonButton Label="Load image" SmallImageSource="/Images/ClipboardIn.png" Click="ClipboardIn_Click" ToolTipTitle="Load image from clipboard"/>
+                    <RibbonButton Label="Load image" SmallImageSource="/Images/ClipboardIn.png" Click="ClipboardIn_Click" ToolTipTitle="Paste image from clipboard"/>
                     <RibbonButton Label="Export data" SmallImageSource="/Images/ClipboardOut.png" Click="ClipboardOut_Click" ToolTipTitle="Export digitised data to clipboard"/>
                 </RibbonGroup>
                 <!-- Data group-->
                 <RibbonGroup x:Name="DataGroup" Header="Data">
-                    <RibbonButton Label="Clear all data" SmallImageSource="/Images/New.png" Click="Reset_Click" ToolTipTitle="Delete all data"/>
-                    <RibbonButton Label="Clear points" SmallImageSource="/Images/Clear.png" Click="Points_Click" ToolTipTitle="Delete all points"/>
+                    <RibbonButton Label="Clear all data" SmallImageSource="/Images/New.png" Click="Reset_Click" ToolTipTitle="Delete all data points, including axis"/>
+                    <RibbonButton Label="Clear points" SmallImageSource="/Images/Clear.png" Click="Points_Click" ToolTipTitle="Delete all data points, excluding axis"/>
                     <RibbonCheckBox Name="cbSort" Label="Sort" SmallImageSource="/Images/Sort.png" IsChecked="{Binding SortMode, Mode=TwoWay}" ToolTipTitle="Sort data by X value" Click="cbSort_Clicked"/>
                     <RibbonComboBox Label="Data type X" SelectionBoxWidth="70" ToolTipTitle="X axis scaling">
                         <RibbonGallery Name="rcbX" SelectedValue="{Binding StyleX}" SelectionChanged="Type_SelectionChanged">
