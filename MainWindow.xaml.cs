@@ -24,6 +24,12 @@ namespace DigitizePlot
         public Version? Version { get { return new Version(1, 1); } }
 
         Bitmap mainBitmap;
+        Data? movingDatum = null;
+        System.Windows.Shapes.Rectangle? groupRect = null;
+        Point groupPos;
+        Stack<MemoryStream> undoStack = new Stack<MemoryStream>();
+        Stack<MemoryStream> redoStack = new Stack<MemoryStream>();
+
         public bool AxisGuides { get; set; } = false;
         public bool NearestNeighbour { get; set; } = false;
         public bool AutoMode { get; set; } = false;
@@ -38,9 +44,6 @@ namespace DigitizePlot
         public string StyleY { get; set; } = "Linear";
         public double MainOpacity { get; set; } = 0.25;
         public SolidColorBrush LineColor { get; set; } = new SolidColorBrush(Colors.Red); 
-        Data? movingDatum = null;
-        System.Windows.Shapes.Rectangle? groupRect = null;
-        Point groupPos;
         public ObservableCollection<Data> data { get; set; } = new ObservableCollection<Data>();
 
         public MainWindow()
@@ -300,6 +303,8 @@ namespace DigitizePlot
 
             if (e.LeftButton == MouseButtonState.Pressed)
             {
+                undoStack.Push(SerialiseData());
+
                 if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
                 {
                     //Group select
@@ -587,10 +592,10 @@ namespace DigitizePlot
                     datum.Y = Math.Pow(10, datum.Y);
             }
             ResultsGrid.ItemsSource = data;
-            if (data.Count > 0) OriginX.Text = data[0].X.ToString();
-            if (data.Count > 0) OriginY.Text = data[0].Y.ToString();
-            if (data.Count > 1) XAxis.Text = data[1].X.ToString();
-            if (data.Count > 2) YAxis.Text = data[2].Y.ToString();
+            if (data.Count > 0) OriginX.Text = data[0].X.ToString("G6");
+            if (data.Count > 0) OriginY.Text = data[0].Y.ToString("G6");
+            if (data.Count > 1) XAxis.Text = data[1].X.ToString("G6");
+            if (data.Count > 2) YAxis.Text = data[2].Y.ToString("G6");
 
             var lines = MainCanvas.Children.OfType<Line>().ToList();
             if (lines.Count == 0)
@@ -662,6 +667,16 @@ namespace DigitizePlot
                     else if (e.Key == Key.C)
                     {
                         ClipboardOut();
+                        e.Handled = true;
+                    }
+                    else if (e.Key == Key.Z)
+                    {
+                        Undo();
+                        e.Handled = true;
+                    }
+                    else if (e.Key == Key.Y)
+                    {
+                        Redo();
                         e.Handled = true;
                     }
                 }
@@ -748,6 +763,7 @@ namespace DigitizePlot
 
         private void Reset_Click(object sender, RoutedEventArgs e)
         {
+            undoStack.Push(SerialiseData());
             data.Clear();
             MainCanvas.Children.Clear();
             UpdateData();
@@ -766,6 +782,8 @@ namespace DigitizePlot
             // Process open file dialog box results
             if (result == true)
             {
+                undoStack.Push(SerialiseData());
+
                 // Open document
                 string filename = dialog.FileName;
                 List<Data>? tempList = null;
@@ -886,6 +904,7 @@ namespace DigitizePlot
 
         private void Points_Click(object sender, RoutedEventArgs e)
         {
+            undoStack.Push(SerialiseData());
             while (data.Count > 3)
             {
                 MainCanvas.Children.Remove(data[3].Marker);
@@ -923,12 +942,58 @@ namespace DigitizePlot
 
         private void cbSort_Clicked(object sender, RoutedEventArgs e)
         {
+            undoStack.Push(SerialiseData());
             UpdateData();
         }
 
         private void MainImage_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             statusViewSize.Content = " View size " + (int)e.NewSize.Width + " x " + (int)e.NewSize.Height;
+        }
+
+        private MemoryStream SerialiseData()
+        {
+            var stream = new MemoryStream();
+            XmlSerializer serializer = new XmlSerializer(typeof(ObservableCollection<Data>));
+            serializer.Serialize(stream, data);
+            return stream;
+        }
+
+        private void DeSerialiseData(MemoryStream stream)
+        {
+            List<Data>? tempList = null;
+
+            stream.Position = 0;
+            var serializer = new XmlSerializer(typeof(List<Data>));
+            tempList = (List<Data>?)serializer.Deserialize(stream);
+
+            if (null != tempList)
+            {
+                data.Clear();
+                MainCanvas.Children.Clear();
+                foreach (var datum in tempList)
+                {
+                    AddEllipse(datum);
+                    data.Add(datum);
+                }
+                UpdateData();
+            }
+        }
+
+        private void Undo()
+        {
+            if (undoStack.Count == 0) return;
+            redoStack.Push(SerialiseData());
+            var last = undoStack.Pop();
+            DeSerialiseData(last);
+        }
+
+        private void Redo()
+        {
+            if (redoStack.Count == 0) return;
+            undoStack.Push(SerialiseData());
+            var last = redoStack.Pop();
+            DeSerialiseData(last);
         }
     }
 
