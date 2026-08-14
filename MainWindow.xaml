@@ -94,8 +94,8 @@
                 <Grid Margin="4">
                     <Label VerticalAlignment="Top" Margin="0,0,104,0" HorizontalAlignment="Right" Width="86" Content="Origin X" VerticalContentAlignment="Top" HorizontalContentAlignment="Right" Padding="0,0,5,0"/>
                     <Label VerticalAlignment="Top" Margin="0,20,104,0" HorizontalAlignment="Right" Width="86" Content="Origin Y" VerticalContentAlignment="Top" HorizontalContentAlignment="Right" Padding="0,0,5,0"/>
-                    <Label VerticalAlignment="Top" Margin="0,40,104,0" HorizontalAlignment="Right" Width="86" Content="X-Axis offset" VerticalContentAlignment="Top" HorizontalContentAlignment="Right" Padding="0,0,5,0"/>
-                    <Label VerticalAlignment="Top" Margin="0,60,104,0" HorizontalAlignment="Right" Width="86" Content="Y-Axis offset" VerticalContentAlignment="Top" HorizontalContentAlignment="Right" Padding="0,0,5,0"/>
+                    <Label VerticalAlignment="Top" Margin="0,40,104,0" HorizontalAlignment="Right" Width="86" Content="X offset" VerticalContentAlignment="Top" HorizontalContentAlignment="Right" Padding="0,0,5,0"/>
+                    <Label VerticalAlignment="Top" Margin="0,60,104,0" HorizontalAlignment="Right" Width="86" Content="Y offset" VerticalContentAlignment="Top" HorizontalContentAlignment="Right" Padding="0,0,5,0"/>
                     <TextBox Name="OriginX" Text="{Binding data[0].X, StringFormat=\{0:G6\}, Mode=OneWayToSource}" LostKeyboardFocus="TextBox_LostFocus" 
                          VerticalAlignment="Top" Margin="0,0,0,0" HorizontalAlignment="Right" Width="100"/>
                     <TextBox Name="OriginY" Text="{Binding data[0].Y, StringFormat=\{0:6\}, Mode=OneWayToSource}" LostKeyboardFocus="TextBox_LostFocus" 
@@ -104,7 +104,9 @@
                          VerticalAlignment="Top" Margin="0,40,0,0" HorizontalAlignment="Right" Width="100"/>
                     <TextBox Name="YAxis" Text="{Binding data[2].Y, StringFormat=\{0:G6\}, Mode=OneWayToSource}" LostKeyboardFocus="TextBox_LostFocus" 
                          VerticalAlignment="Top" Margin="0,60,0,0" HorizontalAlignment="Right" Width="100"/>
-                    <Rectangle x:Name="Swatch" HorizontalAlignment="Left" Height="30" Margin="26,26,0,0" Stroke="Black" VerticalAlignment="Top" Width="30"/>
+                    <Rectangle x:Name="Swatch" HorizontalAlignment="Left" Height="30" Margin="5,5,0,0" Stroke="Black" VerticalAlignment="Top" Width="30"/>
+                    <TextBlock Name ="tbCoordX" HorizontalAlignment="Left" Margin="5,40,0,0" TextWrapping="Wrap" Text="X" VerticalAlignment="Top"/>
+                    <TextBlock Name ="tbCoordY" HorizontalAlignment="Left" Margin="5,60,0,0" TextWrapping="Wrap" Text="Y" VerticalAlignment="Top"/>
                 </Grid>
                 <DataGrid Name="ResultsGrid" HeadersVisibility="Column" 
                   AutoGenerateColumns="False" CanUserReorderColumns="False" CanUserSortColumns="False" CanUserAddRows="False" Margin="0,88,0,0">

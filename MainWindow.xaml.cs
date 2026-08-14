@@ -275,6 +275,13 @@ namespace DigitizePlot
         {
             try
             {
+                if (data.Count >= 3)
+                {
+                    var coord = GetCoords(new Point(x, y));
+                    tbCoordX.Text = string.Format("X {0:G6}", coord.X);
+                    tbCoordY.Text = string.Format("Y {0:G6}", coord.Y);
+                }
+
                 float w = mainBitmap.Width;
                 float h = mainBitmap.Height;
                 float width = (float)(SubImage.ActualWidth / ZoomScale);
@@ -638,36 +645,13 @@ namespace DigitizePlot
             int i = 1;
             foreach (var datum in data)
             {
-                if (StyleX == "Logarithmic")
-                    datum.X = Math.Log10(datum.X);
-                if (StyleY == "Logarithmic")
-                    datum.Y = Math.Log10(datum.Y);
-            }
-            foreach (var datum in data)
-            {
                 if (datum.Label.StartsWith("Point"))
                 {
-                    var P = datum.Local - data[0].Local;
-                    var A = data[1].Local - data[0].Local;
-                    var B = data[2].Local - data[0].Local;
-                    var A2 = Dot(A, A);
-                    var B2 = Dot(B, B);
-                    var AB = Dot(A, B);
-                    var PA = Dot(P, A);
-                    var PB = Dot(P, B);
-                    var a = (PA - PB * AB / B2) / (A2 - AB * AB / B2);
-                    var b = (PB - PA * AB / A2) / (B2 - AB * AB / A2);
-                    datum.X = data[0].X + a * (data[1].X - data[0].X);
-                    datum.Y = data[0].Y + b * (data[2].Y - data[0].Y);
+                    var coord = GetCoords(datum.Local);
+                    datum.X = coord.X;
+                    datum.Y = coord.Y;
                     datum.Label = "Point " + i++;
                 }
-            }
-            foreach (var datum in data)
-            {
-                if (StyleX == "Logarithmic")
-                    datum.X = Math.Pow(10, datum.X);
-                if (StyleY == "Logarithmic")
-                    datum.Y = Math.Pow(10, datum.Y);
             }
             ResultsGrid.ItemsSource = data;
             if (data.Count > 0) OriginX.Text = data[0].X.ToString("G6");
@@ -701,6 +685,43 @@ namespace DigitizePlot
                 }
             }
             UpdateGuides();
+        }
+
+        private Point GetCoords(Point local)
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                var datum = data[i];
+                if (StyleX == "Logarithmic")
+                    datum.X = Math.Log10(datum.X);
+                if (StyleY == "Logarithmic")
+                    datum.Y = Math.Log10(datum.Y);
+            }
+            var P = local - data[0].Local;
+            var A = data[1].Local - data[0].Local;
+            var B = data[2].Local - data[0].Local;
+            var A2 = Dot(A, A);
+            var B2 = Dot(B, B);
+            var AB = Dot(A, B);
+            var PA = Dot(P, A);
+            var PB = Dot(P, B);
+            var a = (PA - PB * AB / B2) / (A2 - AB * AB / B2);
+            var b = (PB - PA * AB / A2) / (B2 - AB * AB / A2);
+            var X = data[0].X + a * (data[1].X - data[0].X);
+            var Y = data[0].Y + b * (data[2].Y - data[0].Y);
+            if (StyleX == "Logarithmic")
+                X = Math.Pow(10, X);
+            if (StyleY == "Logarithmic")
+                Y = Math.Pow(10, Y);
+            for (int i = 0; i < 3; i++)
+            {
+                var datum = data[i];
+                if (StyleX == "Logarithmic")
+                    datum.X = Math.Pow(10, datum.X);
+                if (StyleY == "Logarithmic")
+                    datum.Y = Math.Pow(10, datum.Y);
+            }
+            return new Point(X, Y);
         }
 
         private void UpdateGuides(Data? _datum = null)
