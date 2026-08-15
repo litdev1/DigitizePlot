@@ -22,9 +22,9 @@ namespace DigitizePlot
     /// </summary>
     public partial class MainWindow : Window
     {
-        public Version? Version { get { return new Version(1, 1); } }
+        public Version? Version { get { return new Version(1, 2); } }
 
-        Bitmap mainBitmap;
+        Bitmap? mainBitmap = null;
         Data? movingDatum = null;
         System.Windows.Shapes.Rectangle? groupRect = null;
         Point groupPos;
@@ -94,7 +94,8 @@ namespace DigitizePlot
             };
             setAlignmentValue();
             SystemParameters.StaticPropertyChanged += (sender, e) => { setAlignmentValue(); };
-            
+
+            RoutedEventArgs rea = new RoutedEventArgs();
             var menu = new ContextMenu();
             MainImage.ContextMenu = menu;
             var openImageMenuItem = new MenuItem()
@@ -102,21 +103,21 @@ namespace DigitizePlot
                 Header = "Open and load a new image file",
                 Icon = new Image() { Source = new BitmapImage(new Uri("pack://application:,,,/Images/OpenImage.png")) }
             };
-            openImageMenuItem.Click += (object _sender, RoutedEventArgs _e) => { OpenImage_Click(null, null); };
+            openImageMenuItem.Click += (object _sender, RoutedEventArgs _e) => { OpenImage_Click(sender, rea); };
             menu.Items.Add(openImageMenuItem);
             var saveMenuItem = new MenuItem()
             {
                 Header = "Save current point data",
                 Icon = new Image() { Source = new BitmapImage(new Uri("pack://application:,,,/Images/Save.png")) }
             };
-            saveMenuItem.Click += (object _sender, RoutedEventArgs _e) => { Save_Click(null, null); };
+            saveMenuItem.Click += (object _sender, RoutedEventArgs _e) => { Save_Click(sender, rea); };
             menu.Items.Add(saveMenuItem);
             var openMenuItem = new MenuItem()
             {
                 Header = "Restore previously saved point data",
                 Icon = new Image() { Source = new BitmapImage(new Uri("pack://application:,,,/Images/Open.png")) }
             };
-            openMenuItem.Click += (object _sender, RoutedEventArgs _e) => { Open_Click(null, null); };
+            openMenuItem.Click += (object _sender, RoutedEventArgs _e) => { Open_Click(sender, rea); };
             menu.Items.Add(openMenuItem);
             menu.Items.Add(new Separator());
             var newMenuItem = new MenuItem()
@@ -124,14 +125,14 @@ namespace DigitizePlot
                 Header = "Delete all data points, including axis",
                 Icon = new Image() { Source = new BitmapImage(new Uri("pack://application:,,,/Images/New.png")) }
             };
-            newMenuItem.Click += (object _sender, RoutedEventArgs _e) => { Reset_Click(null, null); };
+            newMenuItem.Click += (object _sender, RoutedEventArgs _e) => { Reset_Click(sender, rea); };
             menu.Items.Add(newMenuItem);
             var clearMenuItem = new MenuItem()
             {
                 Header = "Delete all data points, excluding axis",
                 Icon = new Image() { Source = new BitmapImage(new Uri("pack://application:,,,/Images/Clear.png")) }
             };
-            clearMenuItem.Click += (object _sender, RoutedEventArgs _e) => { Points_Click(null, null); };
+            clearMenuItem.Click += (object _sender, RoutedEventArgs _e) => { Points_Click(sender, rea); };
             menu.Items.Add(clearMenuItem);
             menu.Items.Add(new Separator());
             var copyMenuItem = new MenuItem()
@@ -273,6 +274,8 @@ namespace DigitizePlot
 
         private void updateSubImage(double x, double y)
         {
+            if (null == mainBitmap) return;
+
             try
             {
                 if (data.Count >= 3)
@@ -351,7 +354,7 @@ namespace DigitizePlot
                 bi.EndInit();
                 SubImage.Source = bi;
             }
-            catch (Exception ex)
+            catch //(Exception ex)
             {
                 //MessageBox.Show("updateSubImage: " + ex.Message);
             }
@@ -441,6 +444,8 @@ namespace DigitizePlot
 
         private void AutoDigitize(Image image, Point pos)
         {
+            if (null == mainBitmap) return;
+
             if (data.Count < 3)
             {
                 AddDataPoint(image, pos);
@@ -886,18 +891,36 @@ namespace DigitizePlot
                 // Open document
                 string filename = dialog.FileName;
                 List<Data>? tempList = null;
+                DataSave? dataSave = null;
 
                 try
                 {
-                    var serializer = new XmlSerializer(typeof(List<Data>));
+                    var serializer = new XmlSerializer(typeof(DataSave));
                     using (var fs = new FileStream(filename, FileMode.Open))
                     {
-                        tempList = (List<Data>?)serializer.Deserialize(fs);
+                        dataSave = (DataSave?)serializer.Deserialize(fs);
+                    }
+                    if (null != dataSave)
+                    {
+                        rcbX.SelectedValue = dataSave.StyleX;
+                        rcbY.SelectedValue = dataSave.StyleY;
+                        tempList = dataSave.data;
                     }
                 }
-                catch (Exception ex)
+                catch
                 {
-                    MessageBox.Show("Open_Click: " + ex.Message);
+                    try
+                    {
+                        var serializer = new XmlSerializer(typeof(List<Data>));
+                        using (var fs = new FileStream(filename, FileMode.Open))
+                        {
+                            tempList = (List<Data>?)serializer.Deserialize(fs);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Open_Click: " + ex.Message);
+                    }
                 }
 
                 if (null != tempList)
@@ -930,10 +953,11 @@ namespace DigitizePlot
                 // Save document
                 string filename = dlg.FileName;
 
+                DataSave dataSave = new DataSave(Version, StyleX, StyleY, data.ToList());
                 using (Stream writer = new FileStream(filename, FileMode.Create))
                 {
-                    XmlSerializer serializer = new XmlSerializer(typeof(ObservableCollection<Data>));
-                    serializer.Serialize(writer, data);
+                    XmlSerializer serializer = new XmlSerializer(typeof(DataSave));
+                    serializer.Serialize(writer, dataSave);
                 }
             }
         }
@@ -1093,6 +1117,26 @@ namespace DigitizePlot
             undoStack.Push(SerialiseData());
             var last = redoStack.Pop();
             DeSerialiseData(last);
+        }
+    }
+
+    public class DataSave
+    {
+        public Version? Version = null;
+        public string StyleX = string.Empty;
+        public string StyleY = string.Empty;
+        public List<Data> data { get; set; } = new List<Data>();
+
+        public DataSave()
+        {
+        }
+
+        public DataSave(Version? version, string styleX, string styleY, List<Data> data)
+        {
+            Version = version;
+            StyleX = styleX;
+            StyleY = styleY;
+            this.data = data;
         }
     }
 

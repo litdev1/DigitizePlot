@@ -1,393 +1,608 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ArrayOfData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <Data>
-    <IsVisible>false</IsVisible>
-    <Local>
-      <X>0.10328411199870895</X>
-      <Y>0.8696577697723922</Y>
-    </Local>
-    <Label>Origin</Label>
-    <X>0.001</X>
-    <Y>1</Y>
-  </Data>
-  <Data>
-    <IsVisible>false</IsVisible>
-    <Local>
-      <X>0.681029613491487</X>
-      <Y>0.8703127558539379</Y>
-    </Local>
-    <Label>X Axis</Label>
-    <X>10</X>
-    <Y>0</Y>
-  </Data>
-  <Data>
-    <IsVisible>false</IsVisible>
-    <Local>
-      <X>0.1000564834987493</X>
-      <Y>0.24480104797773042</Y>
-    </Local>
-    <Label>Y Axis</Label>
-    <X>0</X>
-    <Y>1000</Y>
-  </Data>
-  <Data>
-    <IsVisible>true</IsVisible>
-    <Local>
-      <X>0.10572687224669602</X>
-      <Y>0.3111111111111111</Y>
-    </Local>
-    <Label>Point 1</Label>
-    <X>0.0010886481537253385</X>
-    <Y>480.4715907034025</Y>
-  </Data>
-  <Data>
-    <IsVisible>true</IsVisible>
-    <Local>
-      <X>0.1299559471365639</X>
-      <Y>0.3055555555555556</Y>
-    </Local>
-    <Label>Point 2</Label>
-    <X>0.0016026412766981303</X>
-    <Y>511.06075275122834</Y>
-  </Data>
-  <Data>
-    <IsVisible>true</IsVisible>
-    <Local>
-      <X>0.15418502202643172</X>
-      <Y>0.3</Y>
-    </Local>
-    <Label>Point 3</Label>
-    <X>0.0023593105384759807</X>
-    <Y>543.5973698679758</Y>
-  </Data>
-  <Data>
-    <IsVisible>true</IsVisible>
-    <Local>
-      <X>0.17841409691629959</X>
-      <Y>0.2944444444444444</Y>
-    </Local>
-    <Label>Point 4</Label>
-    <X>0.00347323278009661</X>
-    <Y>578.2054265302236</Y>
-  </Data>
-  <Data>
-    <IsVisible>true</IsVisible>
-    <Local>
-      <X>0.2026431718061674</X>
-      <Y>0.2916666666666667</Y>
-    </Local>
-    <Label>Point 5</Label>
-    <X>0.005111911591563708</X>
-    <Y>596.4176826908673</Y>
-  </Data>
-  <Data>
-    <IsVisible>true</IsVisible>
-    <Local>
-      <X>0.22687224669603523</X>
-      <Y>0.2861111111111111</Y>
-    </Local>
-    <Label>Point 6</Label>
-    <X>0.007525443818957306</X>
-    <Y>634.3885377778688</Y>
-  </Data>
-  <Data>
-    <IsVisible>true</IsVisible>
-    <Local>
-      <X>0.2511013215859031</X>
-      <Y>0.2833333333333333</Y>
-    </Local>
-    <Label>Point 7</Label>
-    <X>0.011075964648911122</X>
-    <Y>654.3704439054537</Y>
-  </Data>
-  <Data>
-    <IsVisible>true</IsVisible>
-    <Local>
-      <X>0.27533039647577096</X>
-      <Y>0.28055555555555556</Y>
-    </Local>
-    <Label>Point 8</Label>
-    <X>0.016301628961057937</X>
-    <Y>674.9817380952659</Y>
-  </Data>
-  <Data>
-    <IsVisible>true</IsVisible>
-    <Local>
-      <X>0.2995594713656388</X>
-      <Y>0.27499999999999997</Y>
-    </Local>
-    <Label>Point 9</Label>
-    <X>0.023998261845213684</X>
-    <Y>717.9543636685966</Y>
-  </Data>
-  <Data>
-    <IsVisible>true</IsVisible>
-    <Local>
-      <X>0.3237885462555066</X>
-      <Y>0.27222222222222225</Y>
-    </Local>
-    <Label>Point 10</Label>
-    <X>0.035320694197904214</X>
-    <Y>740.5684177449294</Y>
-  </Data>
-  <Data>
-    <IsVisible>true</IsVisible>
-    <Local>
-      <X>0.34801762114537443</X>
-      <Y>0.26944444444444443</Y>
-    </Local>
-    <Label>Point 11</Label>
-    <X>0.0519850748636897</X>
-    <Y>763.8947670138932</Y>
-  </Data>
-  <Data>
-    <IsVisible>true</IsVisible>
-    <Local>
-      <X>0.3722466960352423</X>
-      <Y>0.26666666666666666</Y>
-    </Local>
-    <Label>Point 12</Label>
-    <X>0.07651174672392995</X>
-    <Y>787.9558472775624</Y>
-  </Data>
-  <Data>
-    <IsVisible>true</IsVisible>
-    <Local>
-      <X>0.3964757709251101</X>
-      <Y>0.2611111111111111</Y>
-    </Local>
-    <Label>Point 13</Label>
-    <X>0.11263591733696149</X>
-    <Y>838.1209549868847</Y>
-  </Data>
-  <Data>
-    <IsVisible>true</IsVisible>
-    <Local>
-      <X>0.4207048458149779</X>
-      <Y>0.25833333333333336</Y>
-    </Local>
-    <Label>Point 14</Label>
-    <X>0.16577778914237062</X>
-    <Y>864.5200042269157</Y>
-  </Data>
-  <Data>
-    <IsVisible>true</IsVisible>
-    <Local>
-      <X>0.4449339207048458</X>
-      <Y>0.25833333333333336</Y>
-    </Local>
-    <Label>Point 15</Label>
-    <X>0.243936307741986</X>
-    <Y>864.7825665218655</Y>
-  </Data>
-  <Data>
-    <IsVisible>true</IsVisible>
-    <Local>
-      <X>0.46916299559471364</X>
-      <Y>0.25277777777777777</Y>
-    </Local>
-    <Label>Point 16</Label>
-    <X>0.35910812353361843</X>
-    <Y>919.8388374342516</Y>
-  </Data>
-  <Data>
-    <IsVisible>true</IsVisible>
-    <Local>
-      <X>0.49339207048458156</X>
-      <Y>0.25277777777777777</Y>
-    </Local>
-    <Label>Point 17</Label>
-    <X>0.5284152369755223</X>
-    <Y>920.1182005432136</Y>
-  </Data>
-  <Data>
-    <IsVisible>true</IsVisible>
-    <Local>
-      <X>0.5176211453744494</X>
-      <Y>0.2472222222222222</Y>
-    </Local>
-    <Label>Point 18</Label>
-    <X>0.7779006165722626</X>
-    <Y>978.6974074810587</Y>
-  </Data>
-  <Data>
-    <IsVisible>true</IsVisible>
-    <Local>
-      <X>0.5418502202643172</X>
-      <Y>0.2472222222222222</Y>
-    </Local>
-    <Label>Point 19</Label>
-    <X>1.1446539682941916</X>
-    <Y>978.9946464531038</Y>
-  </Data>
-  <Data>
-    <IsVisible>true</IsVisible>
-    <Local>
-      <X>0.5660792951541851</X>
-      <Y>0.24444444444444444</Y>
-    </Local>
-    <Label>Point 20</Label>
-    <X>1.6847042105509886</X>
-    <Y>1009.8309210071129</Y>
-  </Data>
-  <Data>
-    <IsVisible>true</IsVisible>
-    <Local>
-      <X>0.5903083700440528</X>
-      <Y>0.24166666666666667</Y>
-    </Local>
-    <Label>Point 21</Label>
-    <X>2.479551336617359</X>
-    <Y>1041.6384734244007</Y>
-  </Data>
-  <Data>
-    <IsVisible>true</IsVisible>
-    <Local>
-      <X>0.6145374449339207</X>
-      <Y>0.2388888888888889</Y>
-    </Local>
-    <Label>Point 22</Label>
-    <X>3.649409072771404</X>
-    <Y>1074.4478969170646</Y>
-  </Data>
-  <Data>
-    <IsVisible>true</IsVisible>
-    <Local>
-      <X>0.6387665198237885</X>
-      <Y>0.2361111111111111</Y>
-    </Local>
-    <Label>Point 23</Label>
-    <X>5.371208243905555</X>
-    <Y>1108.290748319112</Y>
-  </Data>
-  <Data>
-    <IsVisible>true</IsVisible>
-    <Local>
-      <X>0.6629955947136564</X>
-      <Y>0.23055555555555554</Y>
-    </Local>
-    <Label>Point 24</Label>
-    <X>7.907164503028318</X>
-    <Y>1178.8499363177375</Y>
-  </Data>
-  <Data>
-    <IsVisible>true</IsVisible>
-    <Local>
-      <X>0.6872246696035241</X>
-      <Y>0.22499999999999998</Y>
-    </Local>
-    <Label>Point 25</Label>
-    <X>11.640444316954754</X>
-    <Y>1253.90126594849</Y>
-  </Data>
-  <Data>
-    <IsVisible>true</IsVisible>
-    <Local>
-      <X>0.711453744493392</X>
-      <Y>0.21944444444444447</Y>
-    </Local>
-    <Label>Point 26</Label>
-    <X>17.136350691101782</X>
-    <Y>1333.730728830822</Y>
-  </Data>
-  <Data>
-    <IsVisible>true</IsVisible>
-    <Local>
-      <X>0.73568281938326</X>
-      <Y>0.21111111111111108</Y>
-    </Local>
-    <Label>Point 27</Label>
-    <X>25.232859266132973</X>
-    <Y>1462.8824930110968</Y>
-  </Data>
-  <Data>
-    <IsVisible>true</IsVisible>
-    <Local>
-      <X>0.7599118942731278</X>
-      <Y>0.20555555555555555</Y>
-    </Local>
-    <Label>Point 28</Label>
-    <X>37.146273247823025</X>
-    <Y>1556.0167188456228</Y>
-  </Data>
-  <Data>
-    <IsVisible>true</IsVisible>
-    <Local>
-      <X>0.7841409691629956</X>
-      <Y>0.19722222222222222</Y>
-    </Local>
-    <Label>Point 29</Label>
-    <X>54.69698315699973</X>
-    <Y>1706.693538378062</Y>
-  </Data>
-  <Data>
-    <IsVisible>true</IsVisible>
-    <Local>
-      <X>0.8083700440528634</X>
-      <Y>0.1888888888888889</Y>
-    </Local>
-    <Label>Point 30</Label>
-    <X>80.53997628557399</X>
-    <Y>1871.961141974355</Y>
-  </Data>
-  <Data>
-    <IsVisible>true</IsVisible>
-    <Local>
-      <X>0.8325991189427313</X>
-      <Y>0.18055555555555555</Y>
-    </Local>
-    <Label>Point 31</Label>
-    <X>118.59315460711498</X>
-    <Y>2053.2324276519735</Y>
-  </Data>
-  <Data>
-    <IsVisible>true</IsVisible>
-    <Local>
-      <X>0.856828193832599</X>
-      <Y>0.1722222222222222</Y>
-    </Local>
-    <Label>Point 32</Label>
-    <X>174.6255334096261</X>
-    <Y>2252.0571113539545</Y>
-  </Data>
-  <Data>
-    <IsVisible>true</IsVisible>
-    <Local>
-      <X>0.8810572687224669</X>
-      <Y>0.16111111111111112</Y>
-    </Local>
-    <Label>Point 33</Label>
-    <X>257.1906703610412</X>
-    <Y>2547.165441388933</Y>
-  </Data>
-  <Data>
-    <IsVisible>true</IsVisible>
-    <Local>
-      <X>0.9052863436123348</X>
-      <Y>0.1527777777777778</Y>
-    </Local>
-    <Label>Point 34</Label>
-    <X>378.70700166940253</X>
-    <Y>2793.8201096087982</Y>
-  </Data>
-  <Data>
-    <IsVisible>true</IsVisible>
-    <Local>
-      <X>0.9295154185022027</X>
-      <Y>0.14444444444444446</Y>
-    </Local>
-    <Label>Point 35</Label>
-    <X>557.63684161676</X>
-    <Y>3064.359573203983</Y>
-  </Data>
-  <Data>
-    <IsVisible>true</IsVisible>
-    <Local>
-      <X>0.9537444933920705</X>
-      <Y>0.13611111111111113</Y>
-    </Local>
-    <Label>Point 36</Label>
-    <X>821.106675497305</X>
-    <Y>3361.096715422305</Y>
-  </Data>
-</ArrayOfData>
+<DataSave xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Version />
+  <StyleX>Logarithmic</StyleX>
+  <StyleY>Logarithmic</StyleY>
+  <data>
+    <Data>
+      <IsVisible>false</IsVisible>
+      <Local>
+        <X>0.10328411199870895</X>
+        <Y>0.8696577697723922</Y>
+      </Local>
+      <Label>Origin</Label>
+      <X>0.001</X>
+      <Y>1</Y>
+    </Data>
+    <Data>
+      <IsVisible>false</IsVisible>
+      <Local>
+        <X>0.681029613491487</X>
+        <Y>0.8703127558539379</Y>
+      </Local>
+      <Label>X Axis</Label>
+      <X>10</X>
+      <Y>0</Y>
+    </Data>
+    <Data>
+      <IsVisible>false</IsVisible>
+      <Local>
+        <X>0.1000564834987493</X>
+        <Y>0.24480104797773042</Y>
+      </Local>
+      <Label>Y Axis</Label>
+      <X>0</X>
+      <Y>1000</Y>
+    </Data>
+    <Data>
+      <IsVisible>true</IsVisible>
+      <Local>
+        <X>0.10572687224669602</X>
+        <Y>0.3111111111111111</Y>
+      </Local>
+      <Label>Point 1</Label>
+      <X>0.0010886481537253385</X>
+      <Y>480.4715907034025</Y>
+    </Data>
+    <Data>
+      <IsVisible>true</IsVisible>
+      <Local>
+        <X>0.1211453744493392</X>
+        <Y>0.3055555555555555</Y>
+      </Local>
+      <Label>Point 2</Label>
+      <X>0.0013926317322565443</X>
+      <Y>511.0043231176374</Y>
+    </Data>
+    <Data>
+      <IsVisible>true</IsVisible>
+      <Local>
+        <X>0.13656387665198236</X>
+        <Y>0.30277777777777776</Y>
+      </Local>
+      <Label>Point 3</Label>
+      <X>0.001781089291342856</X>
+      <Y>527.0416850848243</Y>
+    </Data>
+    <Data>
+      <IsVisible>true</IsVisible>
+      <Local>
+        <X>0.15198237885462554</X>
+        <Y>0.3</Y>
+      </Local>
+      <Label>Point 4</Label>
+      <X>0.0022779023271256448</X>
+      <Y>543.5823636918727</Y>
+    </Data>
+    <Data>
+      <IsVisible>true</IsVisible>
+      <Local>
+        <X>0.16740088105726872</X>
+        <Y>0.29722222222222217</Y>
+      </Local>
+      <Label>Point 5</Label>
+      <X>0.0029132952722501055</X>
+      <Y>560.6421550304651</Y>
+    </Data>
+    <Data>
+      <IsVisible>true</IsVisible>
+      <Local>
+        <X>0.1828193832599119</X>
+        <Y>0.29444444444444445</Y>
+      </Local>
+      <Label>Point 6</Label>
+      <X>0.003725923294535826</X>
+      <Y>578.2373509368936</Y>
+    </Data>
+    <Data>
+      <IsVisible>true</IsVisible>
+      <Local>
+        <X>0.19823788546255508</X>
+        <Y>0.2916666666666667</Y>
+      </Local>
+      <Label>Point 7</Label>
+      <X>0.004765223947259712</X>
+      <Y>596.3847545505164</Y>
+    </Data>
+    <Data>
+      <IsVisible>true</IsVisible>
+      <Local>
+        <X>0.21365638766519823</X>
+        <Y>0.28888888888888886</Y>
+      </Local>
+      <Label>Point 8</Label>
+      <X>0.006094424783472711</X>
+      <Y>615.1016963604915</Y>
+    </Data>
+    <Data>
+      <IsVisible>true</IsVisible>
+      <Local>
+        <X>0.2290748898678414</X>
+        <Y>0.28611111111111115</Y>
+      </Local>
+      <Label>Point 9</Label>
+      <X>0.007794389907480682</X>
+      <Y>634.4060507561247</Y>
+    </Data>
+    <Data>
+      <IsVisible>true</IsVisible>
+      <Local>
+        <X>0.2444933920704846</X>
+        <Y>0.2833333333333334</Y>
+      </Local>
+      <Label>Point 10</Label>
+      <X>0.009968539474732663</X>
+      <Y>654.3162530966387</Y>
+    </Data>
+    <Data>
+      <IsVisible>true</IsVisible>
+      <Local>
+        <X>0.2599118942731278</X>
+        <Y>0.2805555555555556</Y>
+      </Local>
+      <Label>Point 11</Label>
+      <X>0.012749141425928806</X>
+      <Y>674.8513173166489</Y>
+    </Data>
+    <Data>
+      <IsVisible>true</IsVisible>
+      <Local>
+        <X>0.2753303964757709</X>
+        <Y>0.2805555555555556</Y>
+      </Local>
+      <Label>Point 12</Label>
+      <X>0.016301628961057923</X>
+      <Y>674.9817380952645</Y>
+    </Data>
+    <Data>
+      <IsVisible>true</IsVisible>
+      <Local>
+        <X>0.2907488986784141</X>
+        <Y>0.2777777777777778</Y>
+      </Local>
+      <Label>Point 13</Label>
+      <X>0.02084876863098524</X>
+      <Y>696.1653679891022</Y>
+    </Data>
+    <Data>
+      <IsVisible>true</IsVisible>
+      <Local>
+        <X>0.30616740088105726</X>
+        <Y>0.275</Y>
+      </Local>
+      <Label>Point 14</Label>
+      <X>0.02666427719994832</X>
+      <Y>718.0138250184782</Y>
+    </Data>
+    <Data>
+      <IsVisible>true</IsVisible>
+      <Local>
+        <X>0.32158590308370044</X>
+        <Y>0.27222222222222225</Y>
+      </Local>
+      <Label>Point 15</Label>
+      <X>0.03410195063218397</X>
+      <Y>740.5479741211942</Y>
+    </Data>
+    <Data>
+      <IsVisible>true</IsVisible>
+      <Local>
+        <X>0.3370044052863436</X>
+        <Y>0.26944444444444443</Y>
+      </Local>
+      <Label>Point 16</Label>
+      <X>0.043614271941418495</X>
+      <Y>763.789335060355</Y>
+    </Data>
+    <Data>
+      <IsVisible>true</IsVisible>
+      <Local>
+        <X>0.3524229074889868</X>
+        <Y>0.26666666666666666</Y>
+      </Local>
+      <Label>Point 17</Label>
+      <X>0.05577993873420211</X>
+      <Y>787.7601029754037</Y>
+    </Data>
+    <Data>
+      <IsVisible>true</IsVisible>
+      <Local>
+        <X>0.36784140969163</X>
+        <Y>0.26666666666666666</Y>
+      </Local>
+      <Label>Point 18</Label>
+      <X>0.07132275298681622</X>
+      <Y>787.9123443408077</Y>
+    </Data>
+    <Data>
+      <IsVisible>true</IsVisible>
+      <Local>
+        <X>0.38325991189427316</X>
+        <Y>0.2638888888888889</Y>
+      </Local>
+      <Label>Point 19</Label>
+      <X>0.09121736108086102</X>
+      <Y>812.640188887241</Y>
+    </Data>
+    <Data>
+      <IsVisible>true</IsVisible>
+      <Local>
+        <X>0.39867841409691634</X>
+        <Y>0.2611111111111111</Y>
+      </Local>
+      <Label>Point 20</Label>
+      <X>0.11666132635253462</X>
+      <Y>838.1440922177558</Y>
+    </Data>
+    <Data>
+      <IsVisible>true</IsVisible>
+      <Local>
+        <X>0.4140969162995595</X>
+        <Y>0.25833333333333336</Y>
+      </Local>
+      <Label>Point 21</Label>
+      <X>0.14920257399540332</X>
+      <Y>864.4484101647109</Y>
+    </Data>
+    <Data>
+      <IsVisible>true</IsVisible>
+      <Local>
+        <X>0.42951541850220265</X>
+        <Y>0.25833333333333336</Y>
+      </Local>
+      <Label>Point 22</Label>
+      <X>0.19077716059853492</X>
+      <Y>864.6154722002051</Y>
+    </Data>
+    <Data>
+      <IsVisible>true</IsVisible>
+      <Local>
+        <X>0.44493392070484583</X>
+        <Y>0.25833333333333336</Y>
+      </Local>
+      <Label>Point 23</Label>
+      <X>0.24393630774198624</X>
+      <Y>864.7825665218655</Y>
+    </Data>
+    <Data>
+      <IsVisible>true</IsVisible>
+      <Local>
+        <X>0.460352422907489</X>
+        <Y>0.25555555555555554</Y>
+      </Local>
+      <Label>Point 24</Label>
+      <X>0.311979352060988</X>
+      <Y>891.9229064657819</Y>
+    </Data>
+    <Data>
+      <IsVisible>true</IsVisible>
+      <Local>
+        <X>0.4757709251101322</X>
+        <Y>0.25277777777777777</Y>
+      </Local>
+      <Label>Point 25</Label>
+      <X>0.39900216992437976</X>
+      <Y>919.9150189601486</Y>
+    </Data>
+    <Data>
+      <IsVisible>true</IsVisible>
+      <Local>
+        <X>0.4911894273127754</X>
+        <Y>0.25277777777777777</Y>
+      </Local>
+      <Label>Point 26</Label>
+      <X>0.5101822241563504</X>
+      <Y>920.0928003913386</Y>
+    </Data>
+    <Data>
+      <IsVisible>true</IsVisible>
+      <Local>
+        <X>0.5066079295154186</X>
+        <Y>0.25</Y>
+      </Local>
+      <Label>Point 27</Label>
+      <X>0.6524913047945435</X>
+      <Y>948.9689969629293</Y>
+    </Data>
+    <Data>
+      <IsVisible>true</IsVisible>
+      <Local>
+        <X>0.5220264317180617</X>
+        <Y>0.24722222222222223</Y>
+      </Local>
+      <Label>Point 28</Label>
+      <X>0.8344957598954129</X>
+      <Y>978.7514442171569</Y>
+    </Data>
+    <Data>
+      <IsVisible>true</IsVisible>
+      <Local>
+        <X>0.5374449339207049</X>
+        <Y>0.24722222222222223</Y>
+      </Local>
+      <Label>Point 29</Label>
+      <X>1.067024028749453</X>
+      <Y>978.9405962898438</Y>
+    </Data>
+    <Data>
+      <IsVisible>true</IsVisible>
+      <Local>
+        <X>0.552863436123348</X>
+        <Y>0.24444444444444444</Y>
+      </Local>
+      <Label>Point 30</Label>
+      <X>1.364657308312048</X>
+      <Y>1009.6636723516863</Y>
+    </Data>
+    <Data>
+      <IsVisible>true</IsVisible>
+      <Local>
+        <X>0.5682819383259912</X>
+        <Y>0.24166666666666667</Y>
+      </Local>
+      <Label>Point 31</Label>
+      <X>1.7453117445837505</X>
+      <Y>1041.3509615703638</Y>
+    </Data>
+    <Data>
+      <IsVisible>true</IsVisible>
+      <Local>
+        <X>0.5837004405286343</X>
+        <Y>0.24166666666666667</Y>
+      </Local>
+      <Label>Point 32</Label>
+      <X>2.2316345494228633</X>
+      <Y>1041.5522115342228</Y>
+    </Data>
+    <Data>
+      <IsVisible>true</IsVisible>
+      <Local>
+        <X>0.5991189427312775</X>
+        <Y>0.2388888888888889</Y>
+      </Local>
+      <Label>Point 33</Label>
+      <X>2.8541216648333565</X>
+      <Y>1074.2402908095385</Y>
+    </Data>
+    <Data>
+      <IsVisible>true</IsVisible>
+      <Local>
+        <X>0.6145374449339207</X>
+        <Y>0.2388888888888889</Y>
+      </Local>
+      <Label>Point 34</Label>
+      <X>3.649409072771404</X>
+      <Y>1074.4478969170646</Y>
+    </Data>
+    <Data>
+      <IsVisible>true</IsVisible>
+      <Local>
+        <X>0.6299559471365639</X>
+        <Y>0.2361111111111111</Y>
+      </Local>
+      <Label>Point 35</Label>
+      <X>4.6673670207919855</X>
+      <Y>1108.1683745298828</Y>
+    </Data>
+    <Data>
+      <IsVisible>true</IsVisible>
+      <Local>
+        <X>0.6453744493392071</X>
+        <Y>0.23333333333333334</Y>
+      </Local>
+      <Label>Point 36</Label>
+      <X>5.969271866317088</X>
+      <Y>1142.9471357632463</Y>
+    </Data>
+    <Data>
+      <IsVisible>true</IsVisible>
+      <Local>
+        <X>0.6607929515418502</X>
+        <Y>0.23055555555555554</Y>
+      </Local>
+      <Label>Point 37</Label>
+      <X>7.634327117467267</X>
+      <Y>1178.8173937950457</Y>
+    </Data>
+    <Data>
+      <IsVisible>true</IsVisible>
+      <Local>
+        <X>0.6762114537444934</X>
+        <Y>0.22777777777777777</Y>
+      </Local>
+      <Label>Point 38</Label>
+      <X>9.76382913054612</X>
+      <Y>1215.8134041656956</Y>
+    </Data>
+    <Data>
+      <IsVisible>true</IsVisible>
+      <Local>
+        <X>0.6916299559471366</X>
+        <Y>0.22499999999999998</Y>
+      </Local>
+      <Label>Point 39</Label>
+      <X>12.487329639357666</X>
+      <Y>1253.970497491643</Y>
+    </Data>
+    <Data>
+      <IsVisible>true</IsVisible>
+      <Local>
+        <X>0.7070484581497798</X>
+        <Y>0.21944444444444444</Y>
+      </Local>
+      <Label>Point 40</Label>
+      <X>15.974170761607361</X>
+      <Y>1333.657093735982</Y>
+    </Data>
+    <Data>
+      <IsVisible>true</IsVisible>
+      <Local>
+        <X>0.722466960352423</X>
+        <Y>0.21666666666666667</Y>
+      </Local>
+      <Label>Point 41</Label>
+      <X>20.429969978839935</X>
+      <Y>1375.5125939436098</Y>
+    </Data>
+    <Data>
+      <IsVisible>true</IsVisible>
+      <Local>
+        <X>0.7378854625550662</X>
+        <Y>0.2111111111111111</Y>
+      </Local>
+      <Label>Point 42</Label>
+      <X>26.134637149955854</X>
+      <Y>1462.9228774565374</Y>
+    </Data>
+    <Data>
+      <IsVisible>true</IsVisible>
+      <Local>
+        <X>0.7533039647577092</X>
+        <Y>0.20555555555555555</Y>
+      </Local>
+      <Label>Point 43</Label>
+      <X>33.432220393239824</X>
+      <Y>1555.8878594123944</Y>
+    </Data>
+    <Data>
+      <IsVisible>true</IsVisible>
+      <Local>
+        <X>0.7687224669603525</X>
+        <Y>0.2</Y>
+      </Local>
+      <Label>Point 44</Label>
+      <X>42.76751018232726</X>
+      <Y>1654.7605265943337</Y>
+    </Data>
+    <Data>
+      <IsVisible>true</IsVisible>
+      <Local>
+        <X>0.7841409691629956</X>
+        <Y>0.19444444444444442</Y>
+      </Local>
+      <Label>Point 45</Label>
+      <X>54.70949597967199</X>
+      <Y>1759.9162971866726</Y>
+    </Data>
+    <Data>
+      <IsVisible>true</IsVisible>
+      <Local>
+        <X>0.7995594713656389</X>
+        <Y>0.19166666666666665</Y>
+      </Local>
+      <Label>Point 46</Label>
+      <X>69.97003957842367</X>
+      <Y>1815.149518146008</Y>
+    </Data>
+    <Data>
+      <IsVisible>true</IsVisible>
+      <Local>
+        <X>0.8149779735682819</X>
+        <Y>0.18333333333333332</Y>
+      </Local>
+      <Label>Point 47</Label>
+      <X>89.52827287998416</X>
+      <Y>1990.6996216764628</Y>
+    </Data>
+    <Data>
+      <IsVisible>true</IsVisible>
+      <Local>
+        <X>0.8303964757709252</X>
+        <Y>0.18055555555555558</Y>
+      </Local>
+      <Label>Point 48</Label>
+      <X>114.50108769285632</X>
+      <Y>2053.175747526022</Y>
+    </Data>
+    <Data>
+      <IsVisible>true</IsVisible>
+      <Local>
+        <X>0.8458149779735682</X>
+        <Y>0.17222222222222222</Y>
+      </Local>
+      <Label>Point 49</Label>
+      <X>146.50677183812962</X>
+      <Y>2251.746284796444</Y>
+    </Data>
+    <Data>
+      <IsVisible>true</IsVisible>
+      <Local>
+        <X>0.8612334801762115</X>
+        <Y>0.16666666666666666</Y>
+      </Local>
+      <Label>Point 50</Label>
+      <X>187.41590545490908</X>
+      <Y>2394.838963133131</Y>
+    </Data>
+    <Data>
+      <IsVisible>true</IsVisible>
+      <Local>
+        <X>0.8766519823788546</X>
+        <Y>0.16111111111111112</Y>
+      </Local>
+      <Label>Point 51</Label>
+      <X>239.7481097753715</X>
+      <Y>2547.0248127261934</Y>
+    </Data>
+    <Data>
+      <IsVisible>true</IsVisible>
+      <Local>
+        <X>0.8920704845814978</X>
+        <Y>0.15833333333333333</Y>
+      </Local>
+      <Label>Point 52</Label>
+      <X>306.62290758569725</X>
+      <Y>2626.9606508652632</Y>
+    </Data>
+    <Data>
+      <IsVisible>true</IsVisible>
+      <Local>
+        <X>0.9074889867841409</X>
+        <Y>0.15277777777777776</Y>
+      </Local>
+      <Label>Point 53</Label>
+      <X>392.24132193617737</X>
+      <Y>2793.897236019382</Y>
+    </Data>
+    <Data>
+      <IsVisible>true</IsVisible>
+      <Local>
+        <X>0.9229074889867842</X>
+        <Y>0.14722222222222223</Y>
+      </Local>
+      <Label>Point 54</Label>
+      <X>501.7669940111737</X>
+      <Y>2971.4422113120168</Y>
+    </Data>
+    <Data>
+      <IsVisible>true</IsVisible>
+      <Local>
+        <X>0.9383259911894273</X>
+        <Y>0.1416666666666667</Y>
+      </Local>
+      <Label>Point 55</Label>
+      <X>641.875555171553</X>
+      <Y>3160.269712620742</Y>
+    </Data>
+    <Data>
+      <IsVisible>true</IsVisible>
+      <Local>
+        <X>0.9537444933920703</X>
+        <Y>0.13611111111111113</Y>
+      </Local>
+      <Label>Point 56</Label>
+      <X>821.1066754973034</X>
+      <Y>3361.096715422305</Y>
+    </Data>
+    <Data>
+      <IsVisible>true</IsVisible>
+      <Local>
+        <X>0.9647577092511013</X>
+        <Y>0.13611111111111113</Y>
+      </Local>
+      <Label>Point 57</Label>
+      <X>978.7000928076138</X>
+      <Y>3361.5606744964516</Y>
+    </Data>
+  </data>
+</DataSave>

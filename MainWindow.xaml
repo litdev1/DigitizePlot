@@ -27,12 +27,12 @@
                     <RibbonButton Label="Clear points" SmallImageSource="/Images/Clear.png" Click="Points_Click" ToolTipTitle="Delete all data points, excluding axis"/>
                     <RibbonCheckBox Name="cbSort" Label="Sort" SmallImageSource="/Images/Sort.png" IsChecked="{Binding SortMode, Mode=TwoWay}" ToolTipTitle="Sort data by X value" Click="cbSort_Clicked"/>
                     <RibbonComboBox Label="Data type X" SelectionBoxWidth="70" ToolTipTitle="X axis scaling">
-                        <RibbonGallery Name="rcbX" SelectedValue="{Binding StyleX}" SelectionChanged="Type_SelectionChanged">
+                        <RibbonGallery Name="rcbX" SelectedValue="{Binding StyleX, Mode=TwoWay}" SelectionChanged="Type_SelectionChanged">
                             <RibbonGalleryCategory Name="rcbTypeX" />
                         </RibbonGallery>
                     </RibbonComboBox>
                     <RibbonComboBox Label="Data type Y" SelectionBoxWidth="70" ToolTipTitle="Y axis scaling">
-                        <RibbonGallery Name="rcbY" SelectedValue="{Binding StyleY}" SelectionChanged="Type_SelectionChanged">
+                        <RibbonGallery Name="rcbY" SelectedValue="{Binding StyleY, Mode=TwoWay}" SelectionChanged="Type_SelectionChanged">
                             <RibbonGalleryCategory Name="rcbTypeY"/>
                         </RibbonGallery>
                     </RibbonComboBox>
