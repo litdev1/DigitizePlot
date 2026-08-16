@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Media.Media3D;
 using System.Windows.Shapes;
 using System.Xml.Serialization;
 using static System.Net.Mime.MediaTypeNames;
@@ -261,7 +262,8 @@ namespace DigitizePlot
                     using (var temp = new Bitmap(ms))
                     {
                         // Return a fully independent copy that does not depend on the stream
-                        return new Bitmap(temp);
+                        var bitmap = new Bitmap(temp);
+                        return bitmap;
                     }
                 }
             }
@@ -281,8 +283,8 @@ namespace DigitizePlot
                 if (data.Count >= 3)
                 {
                     var coord = GetCoords(new Point(x, y));
-                    tbCoordX.Text = string.Format("X {0:G6}", coord.X);
-                    tbCoordY.Text = string.Format("Y {0:G6}", coord.Y);
+                    tbCoordX.Text = string.Format("X {0:G6} ({1:D})", coord.X, (int)(x * MainImage.ActualWidth));
+                    tbCoordY.Text = string.Format("Y {0:G6} ({1:D})", coord.Y, (int)(y * MainImage.ActualHeight));
                 }
 
                 float w = mainBitmap.Width;
@@ -294,6 +296,7 @@ namespace DigitizePlot
 
                 var color = mainBitmap.GetPixel((int)(x * w), (int)(y * h));
                 Swatch.Fill = new SolidColorBrush(System.Windows.Media.Color.FromArgb(color.A, color.R, color.G, color.B));
+                tbRGB.Text = string.Format("({0:D},{1:D},{2:D})", color.R, color.G, color.B);
 
                 Bitmap image = new Bitmap((int)width, (int)height, mainBitmap.PixelFormat);
                 var g = Graphics.FromImage(image);
@@ -500,7 +503,7 @@ namespace DigitizePlot
             {
                 var sep = point - last;
                 sep.Normalize();
-                var dot = sep.X * dir.X + sep.Y * dir.Y;
+                var dot = Dot(sep,dir);
                 var dist = (point - last).Length;
                 if ((point.X - last.X > AutoSpacing) ||
                     (AutoSpaceType == "Distance" && dist > AutoSpacing &&
@@ -1079,6 +1082,33 @@ namespace DigitizePlot
         private void MainImage_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             statusViewSize.Content = " View size " + (int)e.NewSize.Width + " x " + (int)e.NewSize.Height;
+            List<Line> lines = new List<Line>();
+            foreach (var child in MainGrid.Children)
+            {
+                if (child.GetType() == typeof(Line))
+                {
+                    lines.Add((Line)child);
+                }
+            }
+            foreach (var line in lines)
+            {
+                MainGrid.Children.Remove(line);
+            }
+
+            int sep = 10;
+            for (int x = 0; x < e.NewSize.Width; x += sep)
+            {
+                MainGrid.Children.Add(new Line()
+                {
+                    X1 = x,
+                    Y1 = 0,
+                    X2 = x,
+                    Y2 = x%100 == 0 ? 10 : x % 50 == 0 ? 8 : 4,
+                    Stroke = new SolidColorBrush(Colors.Black),
+                    StrokeThickness = x % 100 == 0 ? 2 : 1,
+                });
+            }
+
         }
 
         private MemoryStream SerialiseData()

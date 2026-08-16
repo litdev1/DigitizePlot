@@ -48,7 +48,7 @@
                 <RibbonGroup x:Name="AutoGroup" Header="Auto mode">
                     <RibbonCheckBox Name="cbAuto" Label="Auto on" LargeImageSource="/Images/Wizard.png" IsChecked="{Binding AutoMode, Mode=TwoWay}" ToolTipTitle="Auto data detection"/>
                     <RibbonTextBox Name="tbTolerance" Label="Tolerance" Text="{Binding AutoTolerance, StringFormat=\{0:N0\}, Mode=TwoWay}" TextBoxWidth="50" ToolTipTitle="Auto detection theshold (rms R,G,B)" LostKeyboardFocus="TextBox_LostFocus"/>
-                    <RibbonTextBox Name="tbPixelStep" Label="Pixel step" Text="{Binding PixelStep, StringFormat=\{0:N0\}, Mode=TwoWay}" TextBoxWidth="50" ToolTipTitle="Pixels earch distance" LostKeyboardFocus="TextBox_LostFocus"/>
+                    <RibbonTextBox Name="tbPixelStep" Label="Pixel step" Text="{Binding PixelStep, StringFormat=\{0:N0\}, Mode=TwoWay}" TextBoxWidth="50" ToolTipTitle="Pixel search distance" LostKeyboardFocus="TextBox_LostFocus"/>
                     <RibbonTextBox Name="tbSpacing" Label="Spacing" Text="{Binding AutoSpacing, StringFormat=\{0:N0\}, Mode=TwoWay}" TextBoxWidth="50" ToolTipTitle="Auto point spacing (screen pixels)" LostKeyboardFocus="TextBox_LostFocus"/>
                     <RibbonComboBox Label="Spacing type" SelectionBoxWidth="70" ToolTipTitle="Method used for point spacing">
                         <RibbonGallery Name="rcbSpacing" SelectedValue="{Binding AutoSpaceType}" SelectionChanged="Type_SelectionChanged">
@@ -68,7 +68,7 @@
             <StatusBarItem x:Name="statusViewSize" HorizontalAlignment="Left"/>
             <StatusBarItem x:Name="statusVersion" Content="{Binding Version, Mode=OneWay}" ContentStringFormat="Version {0}" HorizontalAlignment="Right"/>
         </StatusBar>
-        <Grid d:DataContext="{d:DesignInstance local:MainWindow}">
+        <Grid x:Name="MainGrid" d:DataContext="{d:DesignInstance local:MainWindow}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="6"/>
@@ -105,6 +105,7 @@
                     <TextBox Name="YAxis" Text="{Binding data[2].Y, StringFormat=\{0:G6\}, Mode=OneWayToSource}" LostKeyboardFocus="TextBox_LostFocus" 
                          VerticalAlignment="Top" Margin="0,60,0,0" HorizontalAlignment="Right" Width="100"/>
                     <Rectangle x:Name="Swatch" HorizontalAlignment="Left" Height="30" Margin="5,5,0,0" Stroke="Black" VerticalAlignment="Top" Width="30"/>
+                    <TextBlock Name ="tbRGB" HorizontalAlignment="Left" Margin="40,12,0,0" TextWrapping="Wrap" Text="RGB" VerticalAlignment="Top"/>
                     <TextBlock Name ="tbCoordX" HorizontalAlignment="Left" Margin="5,40,0,0" TextWrapping="Wrap" Text="X" VerticalAlignment="Top"/>
                     <TextBlock Name ="tbCoordY" HorizontalAlignment="Left" Margin="5,60,0,0" TextWrapping="Wrap" Text="Y" VerticalAlignment="Top"/>
                 </Grid>
