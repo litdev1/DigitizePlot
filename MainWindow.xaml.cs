@@ -498,12 +498,17 @@ namespace DigitizePlot
             AddDataPoint(image, last);
             foreach (var point in allData)
             {
-                var dot = (point.X - last.X) * dir.X + (point.Y - last.Y) * dir.Y;
+                var sep = point - last;
+                sep.Normalize();
+                var dot = sep.X * dir.X + sep.Y * dir.Y;
+                var dist = (point - last).Length;
                 if ((point.X - last.X > AutoSpacing) ||
-                    (AutoSpaceType == "Distance" && (point - last).Length > AutoSpacing)
-                    && ((dot > 0 && point.X >= last.X) || point.X > last.X))
+                    (AutoSpaceType == "Distance" && dist > AutoSpacing &&
+                        ((dot > 0.5 && point.X >= last.X) || //Same direction
+                        (point.X >= last.X + 1)))) //Direction change
                 {
-                    dir = point - last;
+                    dir = (point - last);
+                    dir.Normalize();
                     AddDataPoint(image, point);
                     last = point;
                 }
@@ -543,7 +548,8 @@ namespace DigitizePlot
             Data newDatum = new Data();
             newDatum.Local = new Point(pos.X / image.ActualWidth, pos.Y / image.ActualHeight);
             //var near = data.Where(x => (x.Local - newDatum.Local).Length < 0.001).Count();
-            var near = data.Where(x => Math.Abs(x.Local.X * image.ActualWidth - pos.X) < MarkerWidth &&
+            var near = data.Where(x => x.Label.StartsWith("Point") && 
+            Math.Abs(x.Local.X * image.ActualWidth - pos.X) < MarkerWidth &&
             Math.Abs(x.Local.Y * image.ActualHeight - pos.Y) < MarkerWidth).Count();
             if (near > 0) return false;
 
@@ -902,6 +908,7 @@ namespace DigitizePlot
                     }
                     if (null != dataSave)
                     {
+                        //var version = dataSave.SaveVersion;
                         rcbX.SelectedValue = dataSave.StyleX;
                         rcbY.SelectedValue = dataSave.StyleY;
                         tempList = dataSave.data;
@@ -1122,7 +1129,7 @@ namespace DigitizePlot
 
     public class DataSave
     {
-        public Version? Version = null;
+        public string Version = string.Empty;
         public string StyleX = string.Empty;
         public string StyleY = string.Empty;
         public List<Data> data { get; set; } = new List<Data>();
@@ -1133,10 +1140,15 @@ namespace DigitizePlot
 
         public DataSave(Version? version, string styleX, string styleY, List<Data> data)
         {
-            Version = version;
+            if (null != version) Version = version.ToString();
             StyleX = styleX;
             StyleY = styleY;
             this.data = data;
+        }
+
+        public Version SaveVersion
+        {
+            get { return new Version(Version); }
         }
     }
 
