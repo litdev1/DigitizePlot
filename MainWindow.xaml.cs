@@ -496,6 +496,7 @@ namespace DigitizePlot
             }
 
             allData = allData.OrderBy(p => p.X).ToList();
+            if (allData.Count == 0) return;
             var dir = new Vector(0, 0);
             var last = allData.First();
             AddDataPoint(image, last);
@@ -516,8 +517,7 @@ namespace DigitizePlot
                     last = point;
                 }
             }
-            AddDataPoint(image, allData.Last());
-
+            //AddDataPoint(image, allData.Last());
             //mainBitmap = working;
         }
 
