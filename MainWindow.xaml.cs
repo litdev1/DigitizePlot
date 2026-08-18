@@ -459,8 +459,9 @@ namespace DigitizePlot
             int x0 = (int)(pos.X / image.ActualWidth * working.Width);
             int y0 = (int)(pos.Y / image.ActualHeight * working.Height);
             var p0 = working.GetPixel(x0, y0);
-            var inv = System.Drawing.Color.FromArgb((p0.R + 128) % 256, (p0.G + 128) % 256, (p0.B + 128) % 256);
-            //var hue0 = Hue(p0);
+            var inv = System.Drawing.Color.FromArgb((p0.R + 128) % 255, (p0.G + 128) % 255, (p0.B + 128) % 255);
+            //var hsl = RGB2HSL(p0);
+            //var hue0 = hsl[0];
 
             var x1 = x0;
             var y1 = y0;
@@ -481,7 +482,7 @@ namespace DigitizePlot
                         if (x2 < 0 || x2 >= working.Width || y2 < 0 || y2 >= working.Height) continue;
                         var p2 = working.GetPixel(x2, y2);
                         if (p2 == inv) continue;
-                        //var diff = Math.Abs(hue0 - Hue(p2));
+                        //var diff = Math.Abs(hue0 - RGB2HSL(p2)[0]);
                         var diff = (p2.R - p0.R) * (p2.R - p0.R) + (p2.G - p0.G) * (p2.G - p0.G) + (p2.B - p0.B) * (p2.B - p0.B);
                         if (diff >= tol) continue;
                         stack.Push((x2, y2));
@@ -521,29 +522,34 @@ namespace DigitizePlot
             //mainBitmap = working;
         }
 
-        private double Hue(System.Drawing.Color color)
+        private double[] RGB2HSL(System.Drawing.Color color)
         {
-            var R = color.R / 255.0;
-            var G = color.G / 255.0;
-            var B = color.B / 255.0;
-            var min = Math.Min(R, Math.Min(G, B));
-            var max = Math.Max(R, Math.Max(G, B));
-            var diff = max - min;
-            if (diff == 0) return 0;
-            var hue = 0.0;
-            if (R > G && R > B)
-            {
-                hue = (G - B) / (max - min);
-            }
-            else if (G > B && G > R)
-            {
-                hue = 2 + (B - R) / (max - min);
-            }
-            else
-            {
-                hue = 4 + (R - G) / (max - min);
-            }
-            return hue < 0 ? 360 + 60 * hue : 60 * hue;
+            double R = color.R;
+            double G = color.G;
+            double B = color.B;
+
+            R = R < 0.0 ? 0.0 : R > 255.0 ? 1.0 : R / 255.0;
+            G = G < 0.0 ? 0.0 : G > 255.0 ? 1.0 : G / 255.0;
+            B = B < 0.0 ? 0.0 : B > 255.0 ? 1.0 : B / 255.0;
+
+            double M = Math.Max(R, Math.Max(G, B));
+            double m = Math.Min(R, Math.Min(G, B));
+            double C = M - m;
+
+            double H = 0.0, S, L;
+
+            if (C == 0) H = 0.0;
+            else if (M == R) H = ((G - B) / C) % 6.0;
+            else if (M == G) H = ((B - R) / C) + 2.0;
+            else if (M == B) H = ((R - G) / C) + 4.0;
+            H *= 60.0;
+            while (H < 0.0) H += 360.0;
+            while (H > 360.0) H -= 360.0;
+            H = H % 360.0;
+            L = (M + m) / 2.0;
+            S = (C == 0 || L == 1) ? 0.0 : C / (1.0 - Math.Abs(2.0 * L - 1.0));
+
+            return new double[] { H, S, L };
         }
 
         private bool AddDataPoint(Image image, Point pos)
