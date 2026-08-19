@@ -1,6 +1,6 @@
 # DigitizePlot
 
-https://github.com/litdev1/DigitizePlot/releases/download/Current/Setup.exe
+https://github.com/litdev1/DigitizePlot/releases/download/Current/SetupDigitizePlot.exe
 
 ## Introduction
 I wanted a free Windows desktop plot digitizer that was quick and simple to use with a minimum of mouse clicks and pre/post processing to quickly get digital data from plots typically found in scientific papers.
